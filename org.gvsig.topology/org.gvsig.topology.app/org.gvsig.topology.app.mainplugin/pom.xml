@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.gvsig</groupId>
+    <artifactId>org.gvsig.topology.app</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>org.gvsig.topology.app.mainplugin</artifactId>
+  <name>${project.artifactId}</name>
+  <dependencies>
+    <dependency>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.app.mainplugin</artifactId>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.gvsig</groupId>
+    	<artifactId>org.gvsig.topology.lib.api</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.gvsig</groupId>
+    	<artifactId>org.gvsig.topology.lib.impl</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.gvsig</groupId>
+    	<artifactId>org.gvsig.topology.swing.api</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.gvsig</groupId>
+    	<artifactId>org.gvsig.topology.swing.impl</artifactId>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <gvsig.package.info.state>testing</gvsig.package.info.state>
+    <gvsig.package.info.official>true</gvsig.package.info.official>
+    <gvsig.package.info.dependencies>required: org.gvsig.app -ge 2.2.0</gvsig.package.info.dependencies>
+    <gvsig.package.info.categories></gvsig.package.info.categories>
+    <gvsig.package.info.name>topology</gvsig.package.info.name>
+    <gvsig.package.info.description>Tools: Topology framework and basic rules</gvsig.package.info.description>
+    <gvsig.package.info.owner>gvSIG Association</gvsig.package.info.owner>
+    <gvsig.package.info.javaVM>j1_8</gvsig.package.info.javaVM>
+    <gvsig.package.info.sourcesURL>${project.scm.url}</gvsig.package.info.sourcesURL>
+    <gvsig.package.info.poolURL>https://devel.gvsig.org/download/projects/gvsig-topology/pool</gvsig.package.info.poolURL>
+  </properties>
+
+</project>

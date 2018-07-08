@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.topology.swing</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>org.gvsig.topology.swing.impl</artifactId>
+    <name>${project.artifactId}</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.gvsig</groupId>
+            <artifactId>org.gvsig.topology.lib.api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.gvsig</groupId>
+            <artifactId>org.gvsig.topology.swing.api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jeta</groupId>
+            <artifactId>formsrt</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>jgoodies-forms</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.gvsig</groupId>
+    <artifactId>org.gvsig.desktop</artifactId>
+    <version>2.0.225-SNAPSHOT</version>
+  </parent>
+  <artifactId>org.gvsig.topology</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>${project.artifactId}</name>
+
+  <url>https://redmine.gvsig.net/redmine/projects/gvsig-topology</url>
+
+  <repositories>
+    <repository>
+      <id>gvsig-public-http-repository</id>
+      <name>gvSIG maven public HTTP repository</name>
+      <url>http://devel.gvsig.org/m2repo/j2se</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+        <checksumPolicy>warn</checksumPolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <site>
+      <id>gvsig-repository</id>
+      <url>dav:https://devel.gvsig.org/download/projects/gvsig-topology/pool/${project.artifactId}/${project.version}</url>
+    </site>
+  </distributionManagement>
+  <scm>
+    <connection>scm:svn:https://devel.gvsig.org/svn/gvsig-topology/org.gvsig.topology/trunk/${project.artifactId}</connection>
+    <developerConnection>scm:svn:https://devel.gvsig.org/svn/gvsig-topology/org.gvsig.topology/trunk/${project.artifactId}</developerConnection>
+    <url>https://redmine.gvsig.net/redmine/projects/gvsig-topology/repository/show/org.gvsig.topology/trunk/${project.artifactId}</url>
+  </scm>
+
+    <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://devel.gvsig.org/svn/gvsig-topology/${project.artifactId}/tags</tagBase>
+          <goal>deploy</goal>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.topology.app.mainplugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.topology.lib.api</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.topology.lib.impl</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.topology.swing.api</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.gvsig</groupId>
+        <artifactId>org.gvsig.topology.swing.impl</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <modules>
+    <module>org.gvsig.topology.lib</module>
+    <module>org.gvsig.topology.swing</module>
+    <module>org.gvsig.topology.app</module>
+  </modules>
+
+</project>

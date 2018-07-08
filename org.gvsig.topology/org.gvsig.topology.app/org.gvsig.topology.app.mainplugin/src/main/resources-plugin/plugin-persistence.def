@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+Definitions of plugin persistence org.gvsig.downloader.app.mainplugin
+ -->
+<definitions>
+  <version>1.0.0</version>
+  <classes>
+    <class name="org.gvsig.downloader.app.mainplugin">
+      <description>Persistence for the downloader plugin</description>
+      <fields>
+        <field name="authentications" type="List" classOfItems="org.gvsig.downloader.lib.httpclient.HttpClientDownloaderAuthentication" mandatory="false">
+          <description>List of authentications</description>
+        </field>
+      </fields>
+    </class>
+  </classes>
+</definitions>
