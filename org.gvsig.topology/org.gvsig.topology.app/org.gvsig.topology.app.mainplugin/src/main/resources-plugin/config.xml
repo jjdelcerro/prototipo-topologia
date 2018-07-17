@@ -17,8 +17,41 @@
   <extensions>
 
 
-    <extension class-name="org.gvsig.app.mainplugin.extension.DownloaderExtension"
+    <extension class-name="org.gvsig.topology.app.mainplugin.TopologyExtension"
       description="" active="true" priority="1">
+            <action 
+                name="tools-topology-create-or-modify"
+                label="_Show_create_or_edit_topology_plan" 
+                position="908300100"  
+                tooltip="_Show_create_or_edit_topology_plan" 
+                action-command="tools-topology-create-or-modify"
+                icon="tools-topology-create-or-modify"
+                accelerator=""
+            />
+            <action 
+                name="tools-topology-execute"
+                label="_Execute_topology_plan" 
+                position="908300100"  
+                tooltip="_Execute_topology_plan" 
+                action-command="tools-topology-execute"
+                icon="tools-topology-execute"
+                accelerator=""
+            />
+
+            <menu text="tools/_Topology"
+                              position="908300000" 
+                              is_separator="true"/>
+            <menu text="tools/_Topology/_Create_or_edit_plan" 
+                              name="tools-topology-create-or-modify"/>
+            <menu text="tools/_Topology/_Execute_plan" 
+                              name="tools-topology-execute"/>
+				
+            <!--
+            <tool-bar name="topology" position="2000">
+                <action-tool name="tools-topology-create-or-modify"/>				
+                <action-tool name="tools-topology-execute"/>				
+            </tool-bar>                    
+            -->
     </extension>
 
 

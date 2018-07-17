@@ -16,18 +16,22 @@
     <dependency>
     	<groupId>org.gvsig</groupId>
     	<artifactId>org.gvsig.topology.lib.api</artifactId>
+        <scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>org.gvsig</groupId>
     	<artifactId>org.gvsig.topology.lib.impl</artifactId>
+        <scope>runtime</scope>
     </dependency>
     <dependency>
     	<groupId>org.gvsig</groupId>
     	<artifactId>org.gvsig.topology.swing.api</artifactId>
+        <scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>org.gvsig</groupId>
     	<artifactId>org.gvsig.topology.swing.impl</artifactId>
+        <scope>runtime</scope>
     </dependency>
   </dependencies>
 

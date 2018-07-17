@@ -26,7 +26,6 @@ package org.gvsig.topology.app.mainplugin;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.tree.TreeModel;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.gvsig.app.ApplicationLocator;

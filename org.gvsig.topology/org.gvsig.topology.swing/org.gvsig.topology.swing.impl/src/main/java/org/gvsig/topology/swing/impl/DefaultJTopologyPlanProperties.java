@@ -1,5 +1,6 @@
 package org.gvsig.topology.swing.impl;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
@@ -62,20 +63,24 @@ public class DefaultJTopologyPlanProperties
                 performRemoveRule();
             }
         });
+        this.lstDataSets.setModel(new DefaultListModel());
         this.lstDataSets.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 performDataSetSelected();
             }
         });
+        this.lstRules.setModel(new DefaultListModel());
         this.lstRules.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 performRuleSelected();
             }
         });
+        this.setPreferredSize(new Dimension(450, 300));
     }
 
+    
     private void translate() {
         ToolsSwingManager tsm = ToolsSwingLocator.getToolsSwingManager();
         tsm.translate(this.btnAddRule);

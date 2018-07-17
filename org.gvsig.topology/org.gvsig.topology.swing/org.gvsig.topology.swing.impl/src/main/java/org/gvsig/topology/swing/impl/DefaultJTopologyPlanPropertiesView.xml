@@ -24,7 +24,7 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/jjdelcerro/datos/devel/org.gvsig.topology/org.gvsig.topology.swing/org.gvsig.topology.swing.impl/src/main/java/org/gvsig/topology/swing/impl/DefaultJTopologyPlanPropertiesView.xml</at>
+   <at name="id">/home/jjdelcerro/datos/devel/prototipo-topologia/org.gvsig.topology/org.gvsig.topology.swing/org.gvsig.topology.swing.impl/src/main/java/org/gvsig/topology/swing/impl/DefaultJTopologyPlanPropertiesView.xml</at>
    <at name="rowspecs">CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE</at>
    <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
    <at name="components">
@@ -134,7 +134,7 @@
              </object>
             </at>
             <at name="name">txtName</at>
-            <at name="width">603</at>
+            <at name="width">844</at>
             <at name="height">20</at>
            </object>
           </at>
@@ -222,7 +222,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.390512257</at>
+                     <at name="id">embedded.816360693</at>
                      <at name="rowspecs">CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -274,7 +274,7 @@
                               <at name="scrollableTracksViewportHeight">true</at>
                               <at name="scrollableTracksViewportWidth">true</at>
                               <at name="name">lstDataSets</at>
-                              <at name="width">629</at>
+                              <at name="width">870</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -307,7 +307,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="height">211</at>
+                              <at name="height">352</at>
                              </object>
                             </at>
                            </object>
@@ -332,7 +332,7 @@
                            </at>
                            <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                           </super>
-                          <at name="id">embedded.534844044</at>
+                          <at name="id">embedded.1116617034</at>
                           <at name="rowspecs">CENTER:DEFAULT:NONE</at>
                           <at name="colspecs">FILL:8DLU:GROW(1.0),FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
                           <at name="components">
@@ -679,9 +679,9 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.969373524</at>
-                     <at name="rowspecs">CENTER:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0),CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE</at>
-                     <at name="colspecs">FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE</at>
+                     <at name="id">embedded.1823390704</at>
+                     <at name="rowspecs">CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
+                     <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
                      <at name="components">
                       <object classname="java.util.LinkedList">
                        <item >
@@ -731,7 +731,7 @@
                               <at name="scrollableTracksViewportHeight">true</at>
                               <at name="scrollableTracksViewportWidth">true</at>
                               <at name="name">lstRules</at>
-                              <at name="width">611</at>
+                              <at name="width">870</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -764,7 +764,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="height">172</at>
+                              <at name="height">352</at>
                              </object>
                             </at>
                            </object>
@@ -789,9 +789,9 @@
                            </at>
                            <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                           </super>
-                          <at name="id">embedded.1514139197</at>
+                          <at name="id">embedded.1378569269</at>
                           <at name="rowspecs">CENTER:DEFAULT:NONE</at>
-                          <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE</at>
+                          <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
                           <at name="components">
                            <object classname="java.util.LinkedList">
                             <item >
@@ -1112,9 +1112,9 @@
               </at>
              </object>
             </at>
-            <at name="width">676</at>
+            <at name="width">917</at>
             <at name="tabCount">2</at>
-            <at name="height">349</at>
+            <at name="height">490</at>
            </object>
           </at>
          </object>
@@ -1228,7 +1228,7 @@
             </at>
             <at name="horizontalAlignment">4</at>
             <at name="name">txtTolerance</at>
-            <at name="width">603</at>
+            <at name="width">844</at>
             <at name="height">20</at>
            </object>
           </at>

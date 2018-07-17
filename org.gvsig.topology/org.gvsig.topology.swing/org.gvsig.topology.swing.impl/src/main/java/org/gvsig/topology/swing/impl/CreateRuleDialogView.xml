@@ -24,9 +24,9 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/jjdelcerro/datos/devel/org.gvsig.topology/org.gvsig.topology.swing/org.gvsig.topology.swing.impl/src/main/java/org/gvsig/topology/swing/impl/CreateRuleDialogView.xml</at>
+   <at name="id">/home/jjdelcerro/datos/devel/prototipo-topologia/org.gvsig.topology/org.gvsig.topology.swing/org.gvsig.topology.swing.impl/src/main/java/org/gvsig/topology/swing/impl/CreateRuleDialogView.xml</at>
    <at name="rowspecs">CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
-   <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.7),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE</at>
+   <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.7),FILL:4DLU:NONE,FILL:150PX:NONE,FILL:4DLU:NONE,FILL:150PX:NONE,FILL:4DLU:NONE</at>
    <at name="components">
     <object classname="java.util.LinkedList">
      <item >
@@ -254,7 +254,7 @@
              </object>
             </at>
             <at name="name">cboDataSet1</at>
-            <at name="width">361</at>
+            <at name="width">477</at>
             <at name="items">
              <object classname="com.jeta.forms.store.properties.ItemsProperty">
               <at name="name">items</at>
@@ -313,7 +313,7 @@
              </object>
             </at>
             <at name="name">cboRule</at>
-            <at name="width">361</at>
+            <at name="width">477</at>
             <at name="items">
              <object classname="com.jeta.forms.store.properties.ItemsProperty">
               <at name="name">items</at>
@@ -373,7 +373,7 @@
              </object>
             </at>
             <at name="name">cboDataSet2</at>
-            <at name="width">361</at>
+            <at name="width">477</at>
             <at name="items">
              <object classname="com.jeta.forms.store.properties.ItemsProperty">
               <at name="name">items</at>
@@ -433,7 +433,7 @@
              </object>
             </at>
             <at name="name">lblImage</at>
-            <at name="width">59</at>
+            <at name="width">146</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -492,7 +492,7 @@
              </object>
             </at>
             <at name="name">lblDescription</at>
-            <at name="width">108</at>
+            <at name="width">146</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
               <at name="name">fill</at>
@@ -551,7 +551,7 @@
              </object>
             </at>
             <at name="name">lblLabelDescription</at>
-            <at name="width">178</at>
+            <at name="width">303</at>
             <at name="text">_Rule_description</at>
             <at name="fill">
              <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -672,7 +672,7 @@
             </at>
             <at name="horizontalAlignment">4</at>
             <at name="name">txtTolerance</at>
-            <at name="width">361</at>
+            <at name="width">477</at>
             <at name="height">20</at>
            </object>
           </at>
@@ -698,7 +698,7 @@
          </at>
         </object>
        </at>
-       <at name="name"></at>
+       <at name="name"/>
        <at name="fill">
         <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
          <at name="name">fill</at>

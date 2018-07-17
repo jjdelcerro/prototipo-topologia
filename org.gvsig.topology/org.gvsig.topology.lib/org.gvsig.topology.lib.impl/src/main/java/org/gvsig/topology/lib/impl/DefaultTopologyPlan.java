@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.gvsig.fmap.dal.feature.FeatureStore;
-import org.gvsig.fmap.geom.Geometry;
 import org.gvsig.fmap.geom.GeometryLocator;
 import org.gvsig.fmap.geom.GeometryManager;
 import org.gvsig.fmap.geom.type.GeometryType;
@@ -201,18 +200,22 @@ public class DefaultTopologyPlan implements TopologyPlan {
             TopologyDataSet dataset = this.getDataSet(dataSet1);
             FeatureStore store = (FeatureStore) dataset.getStore();
             GeometryType gt = store.getDefaultFeatureType().getDefaultGeometryAttribute().getGeomType();
-            if( !gt.isTypeOf(factory.getGeometryTypeDataSet1()) ) {
-                return false;
-            }
-            if( factory.getGeometryTypeDataSet2()!=Geometry.TYPES.NULL ) {
-                dataset = this.getDataSet(dataSet2);
-                store = (FeatureStore) dataset.getStore();
-                gt = store.getDefaultFeatureType().getDefaultGeometryAttribute().getGeomType();
-                if( !gt.isTypeOf(factory.getGeometryTypeDataSet2()) ) {
-                    return false;
+            for (Integer geometryType1 : factory.getGeometryTypeDataSet1()) {
+                if( gt.isTypeOf(geometryType1) ) {
+                    if( factory.getGeometryTypeDataSet2()==null ) {
+                        return true;
+                    }
+                    dataset = this.getDataSet(dataSet2);
+                    store = (FeatureStore) dataset.getStore();
+                    gt = store.getDefaultFeatureType().getDefaultGeometryAttribute().getGeomType();
+                    for (Integer geometryType2 : factory.getGeometryTypeDataSet2()) {
+                        if( gt.isTypeOf(geometryType2) ) {
+                            return true;
+                        }
+                    }
                 }
             }
-            return true;
+            return false;
         } catch(Exception ex) {
             return false;
         }

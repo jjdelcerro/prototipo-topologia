@@ -5,6 +5,7 @@
  */
 package org.gvsig.topology.swing.impl;
 
+import java.awt.Dimension;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
@@ -38,7 +39,7 @@ public class SelectDataSetDialog extends SelectDataSetDialogView {
                 performDataSetSelected();
             }
         });
-        
+        this.setPreferredSize(new Dimension(350, 400));        
         this.translate();
     }
 
@@ -73,7 +74,7 @@ public class SelectDataSetDialog extends SelectDataSetDialogView {
         if( dataSet == null ) {
             return null;
         }
-        String name = this.txtName.getName();
+        String name = this.txtName.getText();
         if( !StringUtils.isEmpty(name) ) {
             dataSet.setName(name);
         }
@@ -83,10 +84,10 @@ public class SelectDataSetDialog extends SelectDataSetDialogView {
     public void performDataSetSelected() {
         TopologyDataSet dataSet = this.getSelectedDataSet();
         if( dataSet==null ) {
-            this.lblName.setText("");
+            this.txtName.setText("");
             this.setOkButtonEnabled(false);
         } else {
-            this.lblName.setText(dataSet.getName());
+            this.txtName.setText(dataSet.getName());
             this.setOkButtonEnabled(true);
         }
     }

@@ -23,8 +23,11 @@
  */
 package org.gvsig.topology.rule;
 
+import java.util.ArrayList;
+import org.apache.commons.collections.ListUtils;
 import org.gvsig.fmap.geom.Geometry;
 import org.gvsig.topology.lib.api.AbstractTopologyRuleFactory;
+import org.gvsig.topology.lib.api.ListBuilder;
 import org.gvsig.topology.lib.api.TopologyPlan;
 import org.gvsig.topology.lib.api.TopologyRule;
 
@@ -40,7 +43,7 @@ public class ContainsPointRuleFactory extends AbstractTopologyRuleFactory {
                 "Contains Point", 
                 "Requires that a polygon in one feature class contain at least one point from another feature class. Points must be within the polygon, not on the boundary. ", 
                 ContainsPointRuleFactory.class.getResource("ContainsPoint.png"), 
-                Geometry.TYPES.SURFACE, 
+                ListBuilder.create(Geometry.TYPES.SURFACE, Geometry.TYPES.MULTISURFACE), 
                 Geometry.TYPES.POINT
         );
     }

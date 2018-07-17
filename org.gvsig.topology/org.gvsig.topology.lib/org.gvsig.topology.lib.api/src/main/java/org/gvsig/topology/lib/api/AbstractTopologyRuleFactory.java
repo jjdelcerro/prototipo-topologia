@@ -26,6 +26,7 @@ package org.gvsig.topology.lib.api;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import javax.imageio.ImageIO;
 import org.gvsig.fmap.geom.Geometry;
 import org.gvsig.fmap.geom.GeometryLocator;
@@ -40,8 +41,8 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
     private final String name;
     private final String description;
     private final Image imageDescription;
-    private final int geometryTypeDataSet1;
-    private final int geometryTypeDataSet2;
+    private final List<Integer> geometryTypeDataSet1;
+    private final List<Integer> geometryTypeDataSet2;
 
     protected AbstractTopologyRuleFactory(
             String id,
@@ -50,6 +51,60 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             URL imageDescription,
             int geometryTypeDataSet1,
             int geometryTypeDataSet2
+        ) {
+        this(
+                id, 
+                name, 
+                description, 
+                imageDescription, 
+                ListBuilder.create(geometryTypeDataSet1), 
+                ListBuilder.create(geometryTypeDataSet2)
+        );
+    }
+
+    protected AbstractTopologyRuleFactory(
+            String id,
+            String name,
+            String description,
+            URL imageDescription,
+            List<Integer> geometryTypeDataSet1,
+            int geometryTypeDataSet2
+        ) {
+        this(
+                id, 
+                name, 
+                description, 
+                imageDescription, 
+                geometryTypeDataSet1, 
+                ListBuilder.create(geometryTypeDataSet2)
+        );
+    }
+
+    protected AbstractTopologyRuleFactory(
+            String id,
+            String name,
+            String description,
+            URL imageDescription,
+            int geometryTypeDataSet1,
+            List<Integer> geometryTypeDataSet2
+        ) {
+        this(
+                id, 
+                name, 
+                description, 
+                imageDescription, 
+                ListBuilder.create(geometryTypeDataSet1), 
+                geometryTypeDataSet2
+        );
+    }
+
+    protected AbstractTopologyRuleFactory(
+            String id,
+            String name,
+            String description,
+            URL imageDescription,
+            List<Integer> geometryTypeDataSet1,
+            List<Integer> geometryTypeDataSet2
         ) {
         this.id = id;
         this.name = name;
@@ -103,25 +158,30 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
     }
 
     @Override
-    public int getGeometryTypeDataSet1() {
+    public List<Integer> getGeometryTypeDataSet1() {
         return this.geometryTypeDataSet1;
     }
 
     @Override
-    public int getGeometryTypeDataSet2() {
+    public List<Integer> getGeometryTypeDataSet2() {
         return this.geometryTypeDataSet2;
     }
 
     @Override
     public boolean hasSecondaryDataSet() {
-        return this.geometryTypeDataSet2!=Geometry.TYPES.NULL;
+        return this.geometryTypeDataSet2 == null;
     }
 
     @Override
     public boolean canApplyToDataSet(TopologyDataSet dataSet) {
         GeometryManager geomManager = GeometryLocator.getGeometryManager();
-        boolean x = geomManager.isSubtype(dataSet.getGeometryType(), this.geometryTypeDataSet1);
-        return x;
+        for (Integer geometryType : geometryTypeDataSet1) {
+            boolean canApply = geomManager.isSubtype(geometryType, dataSet.getGeometryType());
+            if( canApply ) {
+                return true;
+            }
+        }        
+        return false;
     }
 
     @Override
@@ -130,7 +190,12 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             return false;
         }
         GeometryManager geomManager = GeometryLocator.getGeometryManager();
-        boolean x = geomManager.isSubtype(dataSet.getGeometryType(), this.geometryTypeDataSet2);
-        return x;
+        for (Integer geometryType : geometryTypeDataSet2) {
+            boolean canApply = geomManager.isSubtype(geometryType, dataSet.getGeometryType() );
+            if( canApply ) {
+                return true;
+            }
+        }        
+        return false;
     }
 }

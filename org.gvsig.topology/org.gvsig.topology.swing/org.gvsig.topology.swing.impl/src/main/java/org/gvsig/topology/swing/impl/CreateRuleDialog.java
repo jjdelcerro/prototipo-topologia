@@ -5,6 +5,7 @@
  */
 package org.gvsig.topology.swing.impl;
 
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.DefaultComboBoxModel;
@@ -79,6 +80,8 @@ public class CreateRuleDialog extends CreateRuleDialogView {
         this.cboRule.setEnabled(false);
         this.cboDataSet2.setEnabled(false);
         this.cboDataSet2.setSelectedItem(-1);
+        
+        this.setPreferredSize(new Dimension(650, 200));        
         
         this.translate();
     }

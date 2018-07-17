@@ -24,6 +24,7 @@
 package org.gvsig.topology.lib.api;
 
 import java.awt.Image;
+import java.util.List;
 
 /**
  *
@@ -39,9 +40,9 @@ public interface TopologyRuleFactory {
     
     public Image getImageDescription();
     
-    public int getGeometryTypeDataSet1();
+    public List<Integer> getGeometryTypeDataSet1();
     
-    public int getGeometryTypeDataSet2();
+    public List<Integer> getGeometryTypeDataSet2();
     
     public TopologyRule createRule(TopologyPlan plan, String dataSet1, String dataSet2, double tolerance);
 

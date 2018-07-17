@@ -21,44 +21,39 @@
  * For any additional information, do not hesitate to contact us
  * at info AT gvsig.com, or visit our website www.gvsig.com.
  */
-package org.gvsig.topology.lib.impl;
+package org.gvsig.topology.swing.impl;
 
-import org.gvsig.fmap.dal.DALLibrary;
-import org.gvsig.fmap.geom.GeometryLibrary;
 import org.gvsig.tools.ToolsLibrary;
 import org.gvsig.tools.library.AbstractLibrary;
 import org.gvsig.tools.library.LibraryException;
 import org.gvsig.topology.lib.api.TopologyLibrary;
 import org.gvsig.topology.lib.api.TopologyLocator;
 import org.gvsig.topology.lib.api.TopologyManager;
-import org.gvsig.topology.rule.ContainsPointRuleFactory;
-import org.gvsig.topology.rule.MustBeLargerThanToleranceLineRuleFactory;
+import org.gvsig.topology.swing.api.TopologySwingLibrary;
+import org.gvsig.topology.swing.api.TopologySwingLocator;
+import org.gvsig.topology.swing.api.TopologySwingManager;
 
 /**
  *
  * @author jjdelcerro
  */
-public class TopologyImplLibrary extends AbstractLibrary {
+public class TopologySwingImplLibrary extends AbstractLibrary {
 
     @Override
     public void doRegistration() {
         super.doRegistration();
-        registerAsImplementationOf(TopologyLibrary.class);
+        registerAsImplementationOf(TopologySwingLibrary.class);
         this.require(ToolsLibrary.class);
-        this.require(DALLibrary.class);
-        this.require(GeometryLibrary.class);
+        this.require(TopologyLibrary.class);
     }
 
     @Override
     protected void doInitialize() throws LibraryException {
-        TopologyLocator.registerDefaultTopologyManager(DefaultTopologyManager.class);
+        TopologySwingLocator.registerDefaultTopologySwingManager(DefaultTopologySwingManager.class);
     }
 
     @Override
     protected void doPostInitialize() throws LibraryException {
-        TopologyManager manager = TopologyLocator.getTopologyManager();
-        manager.addRuleFactories(new ContainsPointRuleFactory());
-        manager.addRuleFactories(new MustBeLargerThanToleranceLineRuleFactory());
     }
 
 }
