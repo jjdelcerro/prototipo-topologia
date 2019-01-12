@@ -10,25 +10,27 @@ import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 
 public class CreateRuleDialogView extends JPanel
 {
-   JLabel lblDataSet2 = new JLabel();
    JLabel lblDataSet1 = new JLabel();
-   JLabel lblRule = new JLabel();
    JComboBox cboDataSet1 = new JComboBox();
+   JLabel lblRule = new JLabel();
    JComboBox cboRule = new JComboBox();
+   JLabel lblDataSet2 = new JLabel();
    JComboBox cboDataSet2 = new JComboBox();
-   JLabel lblImage = new JLabel();
-   JLabel lblDescription = new JLabel();
-   JLabel lblLabelDescription = new JLabel();
    JLabel lblTolerance = new JLabel();
    JTextField txtTolerance = new JTextField();
+   JLabel lblLabelDescription = new JLabel();
+   JLabel lblImage = new JLabel();
+   JEditorPane txtDescription = new JEditorPane();
 
    /**
     * Default constructor
@@ -120,52 +122,80 @@ public class CreateRuleDialogView extends JPanel
    public JPanel createPanel()
    {
       JPanel jpanel1 = new JPanel();
-      FormLayout formlayout1 = new FormLayout("FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.7),FILL:4DLU:NONE,FILL:150PX:NONE,FILL:4DLU:NONE,FILL:150PX:NONE,FILL:4DLU:NONE","CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE");
+      FormLayout formlayout1 = new FormLayout("FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.5),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.5),FILL:4DLU:NONE","CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:DEFAULT:NONE");
       CellConstraints cc = new CellConstraints();
       jpanel1.setLayout(formlayout1);
 
-      lblDataSet2.setName("lblDataSet2");
-      lblDataSet2.setText("_Secondary_dataset");
-      jpanel1.add(lblDataSet2,cc.xy(2,6));
+      jpanel1.add(createPanel1(),cc.xy(2,2));
+      jpanel1.add(createPanel2(),cc.xy(4,2));
+      addFillComponents(jpanel1,new int[]{ 1,2,3,4,5 },new int[]{ 1,2,3 });
+      return jpanel1;
+   }
+
+   public JPanel createPanel1()
+   {
+      JPanel jpanel1 = new JPanel();
+      FormLayout formlayout1 = new FormLayout("FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0)","CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE");
+      CellConstraints cc = new CellConstraints();
+      jpanel1.setLayout(formlayout1);
 
       lblDataSet1.setName("lblDataSet1");
       lblDataSet1.setText("_Primary_dataset");
-      jpanel1.add(lblDataSet1,cc.xy(2,2));
+      jpanel1.add(lblDataSet1,cc.xy(1,1));
+
+      cboDataSet1.setName("cboDataSet1");
+      jpanel1.add(cboDataSet1,cc.xy(3,1));
 
       lblRule.setName("lblRule");
       lblRule.setText("_Rule");
-      jpanel1.add(lblRule,cc.xy(2,4));
-
-      cboDataSet1.setName("cboDataSet1");
-      jpanel1.add(cboDataSet1,cc.xy(4,2));
+      jpanel1.add(lblRule,cc.xy(1,3));
 
       cboRule.setEnabled(false);
       cboRule.setName("cboRule");
-      jpanel1.add(cboRule,cc.xy(4,4));
+      jpanel1.add(cboRule,cc.xy(3,3));
+
+      lblDataSet2.setName("lblDataSet2");
+      lblDataSet2.setText("_Secondary_dataset");
+      jpanel1.add(lblDataSet2,cc.xy(1,5));
 
       cboDataSet2.setEnabled(false);
       cboDataSet2.setName("cboDataSet2");
-      jpanel1.add(cboDataSet2,cc.xy(4,6));
-
-      lblImage.setName("lblImage");
-      jpanel1.add(lblImage,cc.xywh(6,4,1,6));
-
-      lblDescription.setName("lblDescription");
-      jpanel1.add(lblDescription,cc.xywh(8,4,1,6));
-
-      lblLabelDescription.setName("lblLabelDescription");
-      lblLabelDescription.setText("_Rule_description");
-      jpanel1.add(lblLabelDescription,cc.xywh(6,2,3,1));
+      jpanel1.add(cboDataSet2,cc.xy(3,5));
 
       lblTolerance.setName("lblTolerance");
       lblTolerance.setText("_Tolerance");
-      jpanel1.add(lblTolerance,cc.xy(2,8));
+      jpanel1.add(lblTolerance,cc.xy(1,7));
 
       txtTolerance.setName("txtTolerance");
       txtTolerance.setHorizontalAlignment(JTextField.RIGHT);
-      jpanel1.add(txtTolerance,cc.xy(4,8));
+      jpanel1.add(txtTolerance,cc.xy(3,7));
 
-      addFillComponents(jpanel1,new int[]{ 1,2,3,4,5,6,7,8,9 },new int[]{ 1,2,3,4,5,6,7,8,9 });
+      addFillComponents(jpanel1,new int[]{ 2 },new int[]{ 2,4,6 });
+      return jpanel1;
+   }
+
+   public JPanel createPanel2()
+   {
+      JPanel jpanel1 = new JPanel();
+      FormLayout formlayout1 = new FormLayout("FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.7)","CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0)");
+      CellConstraints cc = new CellConstraints();
+      jpanel1.setLayout(formlayout1);
+
+      lblLabelDescription.setName("lblLabelDescription");
+      lblLabelDescription.setText("_Rule_description");
+      jpanel1.add(lblLabelDescription,cc.xywh(1,1,3,1));
+
+      lblImage.setName("lblImage");
+      jpanel1.add(lblImage,cc.xy(1,3));
+
+      txtDescription.setName("txtDescription");
+      JScrollPane jscrollpane1 = new JScrollPane();
+      jscrollpane1.setViewportView(txtDescription);
+      jscrollpane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+      jscrollpane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      jpanel1.add(jscrollpane1,cc.xy(3,3));
+
+      addFillComponents(jpanel1,new int[]{ 2,3 },new int[]{ 2 });
       return jpanel1;
    }
 

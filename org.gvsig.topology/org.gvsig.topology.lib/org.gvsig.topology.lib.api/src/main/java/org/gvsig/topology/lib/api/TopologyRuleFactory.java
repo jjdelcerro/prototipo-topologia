@@ -46,6 +46,8 @@ public interface TopologyRuleFactory {
     
     public TopologyRule createRule(TopologyPlan plan, String dataSet1, String dataSet2, double tolerance);
 
+    public TopologyRule createRule(TopologyPlan plan);
+
     public boolean hasSecondaryDataSet();
 
     public boolean canApplyToDataSet(TopologyDataSet dataSet);

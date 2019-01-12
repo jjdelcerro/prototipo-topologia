@@ -25,13 +25,13 @@ public class DefaultJTopologyReportView extends JPanel
    JLabel lblShow = new JLabel();
    JComboBox jcombobox1 = new JComboBox();
    JToggleButton btnShowErrors = new JToggleButton();
-   JToggleButton jtogglebutton1 = new JToggleButton();
-   JToggleButton jtogglebutton2 = new JToggleButton();
-   JButton btnRemoveDataSet = new JButton();
-   JButton btnRemoveDataSet1 = new JButton();
-   JButton btnRemoveDataSet2 = new JButton();
-   JButton btnRemoveDataSet3 = new JButton();
-   JTable jtable1 = new JTable();
+   JToggleButton btnShowExceptions = new JToggleButton();
+   JToggleButton btnVisibleExtentOnly = new JToggleButton();
+   JButton btnZoom = new JButton();
+   JButton btnCenter = new JButton();
+   JButton btnActions = new JButton();
+   JButton btnRefresh = new JButton();
+   JTable tblErrors = new JTable();
 
    /**
     * Default constructor
@@ -128,8 +128,9 @@ public class DefaultJTopologyReportView extends JPanel
       jpanel1.setLayout(formlayout1);
 
       jpanel1.add(createPanel1(),cc.xy(2,2));
+      tblErrors.setName("tblErrors");
       JScrollPane jscrollpane1 = new JScrollPane();
-      jscrollpane1.setViewportView(jtable1);
+      jscrollpane1.setViewportView(tblErrors);
       jscrollpane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
       jscrollpane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
       jpanel1.add(jscrollpane1,cc.xy(2,4));
@@ -159,45 +160,47 @@ public class DefaultJTopologyReportView extends JPanel
       btnShowErrors.setBorder(emptyborder1);
       jpanel1.add(btnShowErrors,cc.xy(5,1));
 
-      jtogglebutton1.setIcon(loadImage("org/gvsig/topology/swing/impl/images/show_exceptions.png"));
-      jtogglebutton1.setToolTipText("_Show_exceptions");
+      btnShowExceptions.setIcon(loadImage("org/gvsig/topology/swing/impl/images/show_exceptions.png"));
+      btnShowExceptions.setName("btnShowExceptions");
+      btnShowExceptions.setToolTipText("_Show_exceptions");
       EmptyBorder emptyborder2 = new EmptyBorder(2,2,2,2);
-      jtogglebutton1.setBorder(emptyborder2);
-      jpanel1.add(jtogglebutton1,cc.xy(7,1));
+      btnShowExceptions.setBorder(emptyborder2);
+      jpanel1.add(btnShowExceptions,cc.xy(7,1));
 
-      jtogglebutton2.setIcon(loadImage("org/gvsig/topology/swing/impl/images/visible_extent.png"));
-      jtogglebutton2.setToolTipText("_Visible_extent_only");
+      btnVisibleExtentOnly.setIcon(loadImage("org/gvsig/topology/swing/impl/images/visible_extent.png"));
+      btnVisibleExtentOnly.setName("btnVisibleExtentOnly");
+      btnVisibleExtentOnly.setToolTipText("_Visible_extent_only");
       EmptyBorder emptyborder3 = new EmptyBorder(2,2,2,2);
-      jtogglebutton2.setBorder(emptyborder3);
-      jpanel1.add(jtogglebutton2,cc.xy(9,1));
+      btnVisibleExtentOnly.setBorder(emptyborder3);
+      jpanel1.add(btnVisibleExtentOnly,cc.xy(9,1));
 
-      btnRemoveDataSet.setIcon(loadImage("org/gvsig/topology/swing/impl/images/zoom.png"));
-      btnRemoveDataSet.setName("btnRemoveDataSet");
-      btnRemoveDataSet.setToolTipText("_Zoom");
+      btnZoom.setIcon(loadImage("org/gvsig/topology/swing/impl/images/zoom.png"));
+      btnZoom.setName("btnZoom");
+      btnZoom.setToolTipText("_Zoom");
       EmptyBorder emptyborder4 = new EmptyBorder(2,2,2,2);
-      btnRemoveDataSet.setBorder(emptyborder4);
-      jpanel1.add(btnRemoveDataSet,cc.xy(11,1));
+      btnZoom.setBorder(emptyborder4);
+      jpanel1.add(btnZoom,cc.xy(11,1));
 
-      btnRemoveDataSet1.setIcon(loadImage("org/gvsig/topology/swing/impl/images/center_view.png"));
-      btnRemoveDataSet1.setName("btnRemoveDataSet");
-      btnRemoveDataSet1.setToolTipText("_Center");
+      btnCenter.setIcon(loadImage("org/gvsig/topology/swing/impl/images/center_view.png"));
+      btnCenter.setName("btnCenter");
+      btnCenter.setToolTipText("_Center");
       EmptyBorder emptyborder5 = new EmptyBorder(2,2,2,2);
-      btnRemoveDataSet1.setBorder(emptyborder5);
-      jpanel1.add(btnRemoveDataSet1,cc.xy(13,1));
+      btnCenter.setBorder(emptyborder5);
+      jpanel1.add(btnCenter,cc.xy(13,1));
 
-      btnRemoveDataSet2.setIcon(loadImage("org/gvsig/topology/swing/impl/images/show_actions.png"));
-      btnRemoveDataSet2.setName("btnRemoveDataSet");
-      btnRemoveDataSet2.setToolTipText("_Actions");
+      btnActions.setIcon(loadImage("org/gvsig/topology/swing/impl/images/show_actions.png"));
+      btnActions.setName("btnActions");
+      btnActions.setToolTipText("_Actions");
       EmptyBorder emptyborder6 = new EmptyBorder(2,2,2,2);
-      btnRemoveDataSet2.setBorder(emptyborder6);
-      jpanel1.add(btnRemoveDataSet2,cc.xy(15,1));
+      btnActions.setBorder(emptyborder6);
+      jpanel1.add(btnActions,cc.xy(15,1));
 
-      btnRemoveDataSet3.setIcon(loadImage("org/gvsig/topology/swing/impl/images/refresh.png"));
-      btnRemoveDataSet3.setName("btnRemoveDataSet");
-      btnRemoveDataSet3.setToolTipText("_refresh");
+      btnRefresh.setIcon(loadImage("org/gvsig/topology/swing/impl/images/refresh.png"));
+      btnRefresh.setName("btnRefresh");
+      btnRefresh.setToolTipText("_refresh");
       EmptyBorder emptyborder7 = new EmptyBorder(2,2,2,2);
-      btnRemoveDataSet3.setBorder(emptyborder7);
-      jpanel1.add(btnRemoveDataSet3,cc.xy(17,1));
+      btnRefresh.setBorder(emptyborder7);
+      jpanel1.add(btnRefresh,cc.xy(17,1));
 
       addFillComponents(jpanel1,new int[]{ 2,4,6,8,10,12,14,16 },new int[0]);
       return jpanel1;

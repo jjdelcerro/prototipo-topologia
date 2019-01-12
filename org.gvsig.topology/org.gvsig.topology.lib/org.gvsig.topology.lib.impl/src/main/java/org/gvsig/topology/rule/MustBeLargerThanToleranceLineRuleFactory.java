@@ -46,6 +46,12 @@ public class MustBeLargerThanToleranceLineRuleFactory extends AbstractTopologyRu
     }
     
     @Override
+    public TopologyRule createRule(TopologyPlan plan) {
+        TopologyRule rule = new MustBeLargerThanToleranceLineRule(plan, this);
+        return rule;
+    }
+    
+    @Override
     public TopologyRule createRule(TopologyPlan plan, String dataSet1, String dataSet2, double tolerance) {
         TopologyRule rule = new MustBeLargerThanToleranceLineRule(plan, this, tolerance, dataSet1, dataSet2);
         return rule;

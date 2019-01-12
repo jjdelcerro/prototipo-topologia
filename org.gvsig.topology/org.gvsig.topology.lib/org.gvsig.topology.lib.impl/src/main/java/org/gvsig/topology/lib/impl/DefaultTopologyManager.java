@@ -41,14 +41,15 @@ import org.gvsig.topology.lib.api.TopologyServices;
 public class DefaultTopologyManager implements TopologyManager {
 
     private final List<TopologyRuleFactory> factories;
+    private TopologyServices services;
     
     public DefaultTopologyManager() {
         this.factories = new ArrayList<>();
     }
     
     @Override
-    public TopologyPlan createTopologyPlan(TopologyServices services) {
-        TopologyPlan plan = new DefaultTopologyPlan(this, services);
+    public TopologyPlan createTopologyPlan() {
+        TopologyPlan plan = new DefaultTopologyPlan(this, this.services);
         return plan;
     }
 
@@ -84,9 +85,19 @@ public class DefaultTopologyManager implements TopologyManager {
     }
 
     @Override
-    public TopologyDataSet createDataSet(TopologyServices services, String name, FeatureStore store) {
-        TopologyDataSet dataSet = new DefaultTopologyDataSet(services, name, store);
+    public TopologyDataSet createDataSet(String name, FeatureStore store) {
+        TopologyDataSet dataSet = new DefaultTopologyDataSet(this.services, name, store);
         return dataSet;
     }
+    
+    @Override
+    public void setDefaultServices(TopologyServices services) {
+        this.services = services;
+    }
 
+    @Override
+    public TopologyServices getDefaultServices() {
+        return this.services;
+    }
+    
 }

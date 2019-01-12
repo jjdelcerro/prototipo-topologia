@@ -26,8 +26,11 @@ package org.gvsig.topology.lib.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.event.ChangeListener;
 import org.gvsig.fmap.dal.feature.FeatureReference;
 import org.gvsig.fmap.geom.Geometry;
+import org.gvsig.tools.swing.api.ChangeListenerHelper;
+import org.gvsig.tools.swing.api.ToolsSwingLocator;
 import org.gvsig.topology.lib.api.TopologyDataSet;
 import org.gvsig.topology.lib.api.TopologyReport;
 import org.gvsig.topology.lib.api.TopologyReportLine;
@@ -40,10 +43,12 @@ import org.gvsig.topology.lib.api.TopologyRule;
 public class DefaultTopologyReport implements TopologyReport {
 
     // TODO: Habria que meter las lineas del report en disco
-    private List<TopologyReportLine> lines;
+    private final List<TopologyReportLine> lines;
+    private final ChangeListenerHelper changeListenerHelper;
     
     public DefaultTopologyReport() {
         this.lines = new ArrayList<>();
+        this.changeListenerHelper = ToolsSwingLocator.getToolsSwingManager().createChangeListenerHelper();
     }
 
     @Override
@@ -56,12 +61,14 @@ public class DefaultTopologyReport implements TopologyReport {
                 exception, description
         );
         this.lines.add(line);
+        this.changeListenerHelper.fireEvent();
         return line;
     }
 
     @Override
     public void removeAllLines() {
         this.lines.clear();
+        this.changeListenerHelper.fireEvent();
     }
 
     @Override
@@ -79,5 +86,30 @@ public class DefaultTopologyReport implements TopologyReport {
 //        }
 //        return ll;
 //    }
+
+    @Override
+    public void addChangeListener(ChangeListener cl) {
+        this.changeListenerHelper.addChangeListener(cl);
+    }
+
+    @Override
+    public ChangeListener[] getChangeListeners() {
+        return this.changeListenerHelper.getChangeListeners();
+    }
+
+    @Override
+    public void removeChangeListener(ChangeListener cl) {
+        this.changeListenerHelper.removeChangeListener(cl);
+    }
+
+    @Override
+    public void removeAllChangeListener() {
+        this.changeListenerHelper.removeAllChangeListener();
+    }
+
+    @Override
+    public boolean hasChangeListeners() {
+        return this.changeListenerHelper.hasChangeListeners();
+    }
     
 }

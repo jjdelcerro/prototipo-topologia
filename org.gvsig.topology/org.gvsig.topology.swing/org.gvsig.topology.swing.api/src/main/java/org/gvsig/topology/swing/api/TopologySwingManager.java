@@ -31,7 +31,11 @@ import org.gvsig.topology.lib.api.TopologyPlan;
  */
 public interface TopologySwingManager {
     
-    public JTopologyPlanProperties createJTopologyPlan(TopologySwingServices services);
+    public void setDefaultServices(TopologySwingServices services);
+
+    public TopologySwingServices getDefaultServices();
+    
+    public JTopologyPlanProperties createJTopologyPlan();
     
     public JTopologyReport createJTopologyReport(TopologyPlan plan);
     

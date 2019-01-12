@@ -32,7 +32,7 @@ import org.gvsig.fmap.dal.feature.FeatureStore;
  */
 public interface TopologyManager {
     
-    public TopologyPlan createTopologyPlan(TopologyServices callback);
+    public TopologyPlan createTopologyPlan();
     
     public List<TopologyRuleFactory> getRuleFactories();
 
@@ -42,6 +42,9 @@ public interface TopologyManager {
 
     public void addRuleFactories(TopologyRuleFactory factory);
 
-    public TopologyDataSet createDataSet(TopologyServices services, String name, FeatureStore store);
+    public TopologyDataSet createDataSet(String name, FeatureStore store);
     
+    public void setDefaultServices(TopologyServices services);
+
+    public TopologyServices getDefaultServices();
 }

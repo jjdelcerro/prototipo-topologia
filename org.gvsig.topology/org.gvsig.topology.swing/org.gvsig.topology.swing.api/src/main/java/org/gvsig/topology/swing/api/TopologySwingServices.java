@@ -24,6 +24,8 @@
 package org.gvsig.topology.swing.api;
 
 import javax.swing.tree.TreeModel;
+import org.gvsig.fmap.geom.primitive.Envelope;
+import org.gvsig.fmap.geom.primitive.Point;
 import org.gvsig.topology.lib.api.TopologyServices;
 
 /**
@@ -33,5 +35,11 @@ import org.gvsig.topology.lib.api.TopologyServices;
 public interface TopologySwingServices extends TopologyServices {
     
     public TreeModel getDataSetTreeModel();
+    
+    public void zoomTo(Envelope envelope);
+    
+    public void centerTo(Point point);
+    
+    public Envelope getWorkingArea();
 
 }

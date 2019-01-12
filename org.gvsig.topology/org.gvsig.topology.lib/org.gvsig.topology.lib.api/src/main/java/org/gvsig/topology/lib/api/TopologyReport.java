@@ -26,12 +26,13 @@ package org.gvsig.topology.lib.api;
 import java.util.List;
 import org.gvsig.fmap.dal.feature.FeatureReference;
 import org.gvsig.fmap.geom.Geometry;
+import org.gvsig.tools.swing.api.ChangeListenerSupport;
 
 /**
  *
  * @author jjdelcerro
  */
-public interface TopologyReport {
+public interface TopologyReport extends ChangeListenerSupport {
 
 //    public interface TopologyReportFilter {
 //        public boolean accept(TopologyReportLine item);

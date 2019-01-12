@@ -51,13 +51,24 @@ import org.gvsig.topology.swing.api.TopologySwingManager;
  */
 public class TopologyExtension extends Extension {
 
-    private AppTopologyServices services = null;
-    
     @Override
     public void initialize() {
         
     }
 
+    @Override
+    public void postInitialize() {
+        AppTopologyServices services = new AppTopologyServices();
+        
+        TopologyManager manager = TopologyLocator.getTopologyManager();
+        manager.setDefaultServices(services);
+        
+        TopologySwingManager swingManager = TopologySwingLocator.getTopologySwingManager();
+        swingManager.setDefaultServices(services);
+        
+    }
+
+    
     @Override
     public void execute(String action) {
         if( StringUtils.equalsIgnoreCase("tools-topology-create-or-modify", action) ) {
@@ -67,21 +78,18 @@ public class TopologyExtension extends Extension {
                 // TODO: Mensaje de se necesita una vista 
                 return;
             }
-            if( this.services == null ) {
-                this.services = new AppTopologyServices();
-            }
             TopologyManager manager = TopologyLocator.getTopologyManager();
             TopologySwingManager swingManager = TopologySwingLocator.getTopologySwingManager();
             WindowManager_v2 winManager = (WindowManager_v2) ToolsSwingLocator.getWindowManager();
             
-            final JTopologyPlanProperties panel = swingManager.createJTopologyPlan(services);
+            final JTopologyPlanProperties panel = swingManager.createJTopologyPlan();
 
+            TopologyPlan plan = manager.createTopologyPlan();
             String jsonPlan = (String) view.getProperty("TopologyPlan");
             if( !StringUtils.isEmpty(jsonPlan) ) {
-                TopologyPlan plan = manager.createTopologyPlan(services);
                 plan.fromJSON(jsonPlan);
-                panel.put(plan);
-            }
+            } 
+            panel.put(plan);
             
             final Dialog dlg = winManager.createDialog(
                     panel.asJComponent(),
@@ -94,7 +102,7 @@ public class TopologyExtension extends Extension {
                 public void actionPerformed(ActionEvent e) {
                     if( dlg.getAction()==WindowManager_v2.BUTTON_OK ) {
                         TopologyPlan plan = panel.fetch(null);
-                        view.setProperty("TopologyPlan", plan.toJSON());
+                        view.setProperty("TopologyPlan", plan.toJSON().toString());
                     }
                 }
             });
@@ -107,9 +115,6 @@ public class TopologyExtension extends Extension {
                 // TODO: Mensaje de se necesita una vista 
                 return;
             }
-            if( this.services == null ) {
-                this.services = new AppTopologyServices();
-            }
             TopologyManager manager = TopologyLocator.getTopologyManager();
             final TopologySwingManager swingManager = TopologySwingLocator.getTopologySwingManager();
             final WindowManager_v2 winManager = (WindowManager_v2) ToolsSwingLocator.getWindowManager();
@@ -121,27 +126,23 @@ public class TopologyExtension extends Extension {
                 return;
             }
            
-            final TopologyPlan plan = manager.createTopologyPlan(services);
+            final TopologyPlan plan = manager.createTopologyPlan();
             plan.fromJSON(jsonPlan);
+            JTopologyReport panel = swingManager.createJTopologyReport(plan);
+            panel.put(plan.getReport());
+            winManager.showWindow(
+                    panel.asJComponent(), 
+                    "_Error_inspector",
+                    WindowManager.MODE.TOOL
+            );
 
             Thread th = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     plan.execute();
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            JTopologyReport panel = swingManager.createJTopologyReport(plan);
-                            winManager.showWindow(
-                                    panel.asJComponent(), 
-                                    "_Error_inspector",
-                                    WindowManager.MODE.TOOL
-                            );
-                        }
-                    });
                 }
             }, "_Topology_plan "+ plan.getName());
-
+            th.start();
         }
     }
 

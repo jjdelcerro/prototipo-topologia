@@ -27,6 +27,7 @@ import org.gvsig.topology.lib.api.TopologyRuleFactory;
  *
  * @author jjdelcerro
  */
+@SuppressWarnings("UseSpecificCatch")
 public class CreateRuleDialog extends CreateRuleDialogView {
 
     private final TopologyPlan plan;
@@ -154,25 +155,25 @@ public class CreateRuleDialog extends CreateRuleDialogView {
             this.cboDataSet2.setSelectedItem(-1);
             return ;
         }
-        DefaultComboBoxModel<TopologyDataSet> model1 = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<TopologyDataSet> model2 = new DefaultComboBoxModel<>();
         if( ruleFactory.hasSecondaryDataSet() ) {
             for (TopologyDataSet dataSet : this.plan.getSecondaryDataSets(ruleFactory) ) {
-                model1.addElement(dataSet);
+                model2.addElement(dataSet);
             }
         }
-        if( model1.getSize()==0 ) {
+        if( model2.getSize()==0 ) {
             this.cboDataSet2.setEnabled(false);
         } else {
             this.cboDataSet2.setEnabled(true);
         }
-        this.cboDataSet1.setModel(model1);
+        this.cboDataSet2.setModel(model2);
         this.cboDataSet2.setSelectedItem(-1);
         
         this.lblImage.setIcon(new ImageIcon(ruleFactory.getImageDescription()));
         String description = ruleFactory.getDescription();
         description = description.replace("\\n", "<br>\n");
         description = description.replace("\n", "<br>\n");
-        this.lblDescription.setText("<html><p>"+description+"</p></html>");
+        this.txtDescription.setText("<html><p>"+description+"</p></html>");
         this.validateData();
     }
     

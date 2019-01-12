@@ -23,6 +23,7 @@
  */
 package org.gvsig.topology.lib.api;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,9 @@ import org.gvsig.tools.exception.BaseException;
 import org.gvsig.tools.task.SimpleTaskStatus;
 import org.gvsig.tools.visitor.VisitCanceledException;
 import org.gvsig.tools.visitor.Visitor;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,15 +42,31 @@ import org.gvsig.tools.visitor.Visitor;
  */
 public abstract class AbstractTopologyRule implements TopologyRule {
 
-    private final TopologyRuleFactory factory;
-    private final double tolerance;
-    private final String dataSet1;
-    private final String dataSet2;
+    protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractTopologyRule.class);
+    
     private final TopologyPlan plan;
+    private final TopologyRuleFactory factory;
+    private double tolerance;
+    private String dataSet1;
+    private String dataSet2;
 
     protected TopologyReport report;
     protected List<TopologyRuleAction> actions;
 
+    protected AbstractTopologyRule(
+            TopologyPlan plan,
+            TopologyRuleFactory factory
+    ) {
+        this.plan = plan;
+        this.factory = factory;
+
+        this.tolerance = plan.getTolerance();
+        this.dataSet1 = null;
+        this.dataSet2 = null;
+        this.report = null;
+        this.actions = new ArrayList<>();
+    }
+    
     protected AbstractTopologyRule(
             TopologyPlan plan,
             TopologyRuleFactory factory,
@@ -54,12 +74,10 @@ public abstract class AbstractTopologyRule implements TopologyRule {
             String dataSet1,
             String dataSet2
     ) {
-        this.plan = plan;
-        this.factory = factory;
+        this(plan,factory);
         this.tolerance = tolerance;
         this.dataSet1 = dataSet1;
         this.dataSet2 = dataSet2;
-        this.report = null;
     }
 
     protected TopologyPlan getPlan() {
@@ -76,6 +94,12 @@ public abstract class AbstractTopologyRule implements TopologyRule {
         return this.getFactory().getName();
     }
 
+    @Override
+    public String getId() {
+        return this.getFactory().getId();
+    }
+
+    
     @Override
     public boolean equals(Object obj) {
         if( !(obj instanceof TopologyRule) ) {
@@ -164,4 +188,36 @@ public abstract class AbstractTopologyRule implements TopologyRule {
     protected  void check(TopologyReport report, Feature feature1, TopologyDataSet dataSet2 ) throws Exception {
         
     }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject me = new JSONObject();
+        me.put("tolerance", this.tolerance);
+        me.put("dataSet1", this.dataSet1);
+        me.put("dataSet2", this.dataSet2);
+        
+        return me;
+    }
+
+    @Override
+    public void fromJSON(String json) {
+        this.fromJSON(new JSONObject(json));
+    }
+    
+    @Override
+    public void fromJSON(JSONObject json) {
+        this.report = null;
+        this.actions = new ArrayList<>();
+
+        if( json.has("tolerance") ) {
+            this.tolerance = json.getDouble("tolerance");
+        }
+        if( json.has("dataSet1") ) {
+            this.dataSet1 = json.getString("dataSet1");
+        }
+        if( json.has("dataSet2") ) {
+            this.dataSet2 = json.getString("dataSet2");
+        }
+    }
+
 }

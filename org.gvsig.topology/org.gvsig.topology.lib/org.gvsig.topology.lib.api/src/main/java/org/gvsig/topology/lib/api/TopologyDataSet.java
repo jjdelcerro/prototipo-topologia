@@ -34,7 +34,7 @@ import org.gvsig.tools.visitor.Visitor;
  *
  * @author jjdelcerro
  */
-public interface TopologyDataSet {
+public interface TopologyDataSet extends SerializableJSON {
 
     public static interface Operation {
         public void run() throws DataException;

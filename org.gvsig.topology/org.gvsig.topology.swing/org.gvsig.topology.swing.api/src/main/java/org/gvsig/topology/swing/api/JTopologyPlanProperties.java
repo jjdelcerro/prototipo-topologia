@@ -32,8 +32,6 @@ import org.gvsig.topology.lib.api.TopologyPlan;
  */
 public interface JTopologyPlanProperties extends Component {
     
-    public TopologySwingServices getServices();
-    
     public void put(TopologyPlan plan);
     
     public TopologyPlan fetch(TopologyPlan plan);

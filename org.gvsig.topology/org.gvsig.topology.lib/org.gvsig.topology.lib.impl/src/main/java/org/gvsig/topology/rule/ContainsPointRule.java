@@ -23,17 +23,16 @@
  */
 package org.gvsig.topology.rule;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.gvsig.fmap.dal.ExpressionBuilder;
+import org.gvsig.expressionevaluator.Expression;
+import org.gvsig.expressionevaluator.ExpressionBuilder;
+import org.gvsig.expressionevaluator.ExpressionEvaluatorLocator;
+import org.gvsig.expressionevaluator.ExpressionEvaluatorManager;
 import org.gvsig.fmap.dal.feature.EditableFeature;
 import org.gvsig.fmap.dal.feature.Feature;
 import org.gvsig.fmap.dal.feature.FeatureQuery;
 import org.gvsig.fmap.dal.feature.FeatureSet;
 import org.gvsig.fmap.dal.feature.FeatureStore;
 import org.gvsig.fmap.geom.Geometry;
-import org.gvsig.fmap.geom.operation.GeometryOperationException;
-import org.gvsig.fmap.geom.operation.GeometryOperationNotSupportedException;
 import org.gvsig.fmap.geom.primitive.Point;
 import org.gvsig.tools.dynobject.DynObject;
 import org.gvsig.topology.lib.api.AbstractTopologyRule;
@@ -50,7 +49,10 @@ import org.gvsig.topology.lib.api.TopologyRuleFactory;
  *
  * @author jjdelcerro
  */
+@SuppressWarnings("UseSpecificCatch")
 public class ContainsPointRule extends AbstractTopologyRule {
+
+    private String geomName;
 
     private class CreateFetureAction extends AbstractTopologyRuleAction {
 
@@ -84,6 +86,17 @@ public class ContainsPointRule extends AbstractTopologyRule {
 
     }
 
+    private Expression expression = null;
+    private ExpressionBuilder expressionBuilder = null;
+    
+    public ContainsPointRule(
+            TopologyPlan plan,
+            TopologyRuleFactory factory
+    ) {
+        super(plan, factory);
+        this.actions.add(new CreateFetureAction());
+    }
+    
     public ContainsPointRule(
             TopologyPlan plan,
             TopologyRuleFactory factory,
@@ -99,18 +112,22 @@ public class ContainsPointRule extends AbstractTopologyRule {
     protected void check(TopologyReport report, Feature feature1, TopologyDataSet dataSet2) throws Exception {
         FeatureSet set = null;
         try {
+            FeatureStore store2 = dataSet2.getStore();
+            if( this.expression == null ) {
+                ExpressionEvaluatorManager manager = ExpressionEvaluatorLocator.getManager();
+                this.expression = manager.createExpression();
+                this.expressionBuilder = manager.createExpressionBuilder();
+                this.geomName = store2.getDefaultFeatureType().getDefaultGeometryAttributeName();
+             }
             Geometry polygon = feature1.getDefaultGeometry();
-            FeatureStore store = dataSet2.getStore();
-            String geomName = store.getDefaultFeatureType().getDefaultGeometryAttributeName();
-            FeatureQuery query = store.createFeatureQuery();
-            ExpressionBuilder sqlbuilder = store.createExpressionBuilder();
-            sqlbuilder.ST_Intersects(
-                    sqlbuilder.column(geomName),
-                    sqlbuilder.geometry(polygon, polygon.getProjection())
+            this.expression.setPhrase(
+                this.expressionBuilder.ST_Intersects(
+                    this.expressionBuilder.column(this.geomName),
+                    this.expressionBuilder.geometry(polygon)
+                ).toString()
             );
-            query.addFilter(sqlbuilder.toString());
-            set = store.getFeatureSet(query);
-            if (set.isEmpty()) {
+            Feature f = store2.findFirst(this.expression);
+            if ( f==null ) {
                 report.addLine(this,
                         this.getDataSet1(),
                         this.getDataSet2(),
@@ -121,6 +138,8 @@ public class ContainsPointRule extends AbstractTopologyRule {
                         "The polygon is an error because it does not contain a point."
                 );
             }
+        } catch(Exception ex) {
+            LOGGER.warn("Can't check feature.", ex);
         } finally {
             if( set!=null ) {
                 set.dispose();

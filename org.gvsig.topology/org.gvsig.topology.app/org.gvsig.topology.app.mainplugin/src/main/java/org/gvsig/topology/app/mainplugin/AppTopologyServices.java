@@ -35,6 +35,9 @@ import org.gvsig.app.project.documents.Document;
 import org.gvsig.app.project.documents.view.ViewDocument;
 import org.gvsig.app.project.documents.view.ViewManager;
 import org.gvsig.fmap.dal.feature.FeatureStore;
+import org.gvsig.fmap.geom.primitive.Envelope;
+import org.gvsig.fmap.geom.primitive.Point;
+import org.gvsig.fmap.mapcontext.ViewPort;
 import org.gvsig.fmap.mapcontext.layers.FLayers;
 import org.gvsig.fmap.mapcontext.layers.vectorial.FLyrVect;
 import org.gvsig.tools.exception.BaseException;
@@ -42,13 +45,18 @@ import org.gvsig.tools.visitor.VisitCanceledException;
 import org.gvsig.tools.visitor.Visitor;
 import org.gvsig.topology.lib.api.TopologyDataSet;
 import org.gvsig.topology.swing.api.TopologySwingServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jjdelcerro
  */
+@SuppressWarnings("UseSpecificCatch")
 public class AppTopologyServices implements TopologySwingServices {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppTopologyServices.class);
+    
     @Override
     public TreeModel getDataSetTreeModel() {
         ApplicationManager application = ApplicationLocator.getManager();
@@ -93,6 +101,44 @@ public class AppTopologyServices implements TopologySwingServices {
             }
         }
         return store.getValue();
+    }
+
+    @Override
+    public void zoomTo(Envelope envelope) {
+        ApplicationManager application = ApplicationLocator.getManager();
+        ViewDocument viewdoc = (ViewDocument) application.getActiveDocument(ViewManager.TYPENAME);
+        if( viewdoc == null ) {
+            return;
+        }
+        ViewPort viewPort = viewdoc.getMapContext().getViewPort();
+        viewPort.setEnvelope(envelope);
+    }
+
+    @Override
+    public void centerTo(Point point) {
+        try {
+            ApplicationManager application = ApplicationLocator.getManager();
+            ViewDocument viewdoc = (ViewDocument) application.getActiveDocument(ViewManager.TYPENAME);
+            if( viewdoc == null ) {
+                return;
+            }
+            ViewPort viewPort = viewdoc.getMapContext().getViewPort();
+            Envelope envelope = (Envelope) viewPort.getEnvelope().clone();
+            envelope.centerTo(point);
+            viewPort.setEnvelope(envelope);
+        } catch (Exception ex) {
+            LOGGER.warn("Cant center view", ex);
+        }
+    }
+
+    @Override
+    public Envelope getWorkingArea() {
+        ApplicationManager application = ApplicationLocator.getManager();
+        ViewDocument viewdoc = (ViewDocument) application.getActiveDocument(ViewManager.TYPENAME);
+        if( viewdoc == null ) {
+            return null;
+        }
+        return viewdoc.getMapContext().getViewPort().getEnvelope();
     }
     
 }

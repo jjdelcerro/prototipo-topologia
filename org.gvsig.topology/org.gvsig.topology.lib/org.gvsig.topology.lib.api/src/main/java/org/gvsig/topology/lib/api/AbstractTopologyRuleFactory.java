@@ -169,7 +169,7 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
 
     @Override
     public boolean hasSecondaryDataSet() {
-        return this.geometryTypeDataSet2 == null;
+        return this.geometryTypeDataSet2 != null && !this.geometryTypeDataSet2.isEmpty();
     }
 
     @Override

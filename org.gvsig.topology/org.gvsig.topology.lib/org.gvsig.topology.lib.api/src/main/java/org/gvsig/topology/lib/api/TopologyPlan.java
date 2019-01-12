@@ -30,7 +30,7 @@ import org.gvsig.fmap.dal.feature.FeatureStore;
  *
  * @author jjdelcerro
  */
-public interface TopologyPlan {
+public interface TopologyPlan extends SerializableJSON {
 
     
     public String getName();
@@ -49,7 +49,7 @@ public interface TopologyPlan {
 
     public void execute();
     
-    public TopologyDataSet addDataSet(String id, String name, FeatureStore store);
+    public TopologyDataSet addDataSet(String name, FeatureStore store);
 
     public TopologyDataSet addDataSet(TopologyDataSet dataSet);
     
@@ -72,9 +72,5 @@ public interface TopologyPlan {
     public Collection<TopologyRule> getRules();
     
     public TopologyReport getReport();
-    
-    public String toJSON();
-    
-    public void fromJSON(String plan);
 
 }

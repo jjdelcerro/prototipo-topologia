@@ -41,6 +41,8 @@ import org.gvsig.tools.visitor.Visitor;
 import org.gvsig.topology.lib.api.CancelOperationException;
 import org.gvsig.topology.lib.api.PerformOperationException;
 import org.gvsig.topology.lib.api.TopologyDataSet;
+import org.gvsig.topology.lib.api.TopologyLocator;
+import org.gvsig.topology.lib.api.TopologyManager;
 import org.json.JSONObject;
 import org.gvsig.topology.lib.api.TopologyServices;
 
@@ -48,14 +50,22 @@ import org.gvsig.topology.lib.api.TopologyServices;
  *
  * @author jjdelcerro
  */
-@SuppressWarnings("EqualsAndHashcode")
+@SuppressWarnings({"EqualsAndHashcode","UseSpecificCatch"})
 public class DefaultTopologyDataSet implements TopologyDataSet {
 
-    private final TopologyServices services;
+    private TopologyServices services;
     private String name;
     private FeatureStore store;
     private boolean needFinishEditing;
     private String fullName;
+
+    public DefaultTopologyDataSet() {
+        this.services = null;
+        this.name = null;
+        this.store = null;
+        this.needFinishEditing = false;
+        this.fullName = null;
+    }
 
     public DefaultTopologyDataSet(TopologyServices services, String name, FeatureStore store) {
         this.services = services;
@@ -65,13 +75,6 @@ public class DefaultTopologyDataSet implements TopologyDataSet {
         if( store!=null ) {
             this.fullName = store.getFullName();
         }
-    }
-
-    public DefaultTopologyDataSet(TopologyServices services, JSONObject jsonDataSet) {
-        this.services = services;
-        this.name = jsonDataSet.getString("name");
-        this.store = null;
-        this.needFinishEditing = false;
     }
 
     @Override
@@ -158,13 +161,6 @@ public class DefaultTopologyDataSet implements TopologyDataSet {
         } catch (BaseException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    JSONObject toJSON() {
-        JSONObject jsonDataSet = new JSONObject();
-        jsonDataSet.put("name", this.name);
-
-        return jsonDataSet;
     }
 
     @Override
@@ -277,4 +273,32 @@ public class DefaultTopologyDataSet implements TopologyDataSet {
             feature.getFeature()
         );
     }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject jsonDataSet = new JSONObject();
+        jsonDataSet.put("name", this.name);
+        jsonDataSet.put("fullName", this.fullName);
+
+        return jsonDataSet;
+    }
+
+    @Override
+    public void fromJSON(String json) {
+        this.fromJSON(new JSONObject(json));
+    }
+
+    @Override
+    public void fromJSON(JSONObject json) {
+        TopologyManager manager = TopologyLocator.getTopologyManager();
+        this.name = json.getString("name");
+        this.fullName = null;
+        if( json.has("fullName") ) {
+            this.fullName = json.getString("fullName");
+        }
+        this.store = null;
+        this.needFinishEditing = false;
+        this.services = manager.getDefaultServices();
+    }
+
 }

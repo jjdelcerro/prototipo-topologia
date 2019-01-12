@@ -15,6 +15,7 @@ import org.gvsig.tools.swing.api.ToolsSwingManager;
 import org.gvsig.tools.swing.api.windowmanager.Dialog;
 import org.gvsig.tools.swing.api.windowmanager.WindowManager_v2;
 import org.gvsig.topology.lib.api.TopologyDataSet;
+import org.gvsig.topology.swing.api.TopologySwingLocator;
 import org.gvsig.topology.swing.api.TopologySwingServices;
 
 /**
@@ -26,8 +27,8 @@ public class SelectDataSetDialog extends SelectDataSetDialogView {
     private final TopologySwingServices services;
     private Dialog dialog = null;
     
-    SelectDataSetDialog(TopologySwingServices services) {
-        this.services = services;
+    SelectDataSetDialog() {
+        this.services = TopologySwingLocator.getTopologySwingManager().getDefaultServices();
         this.initComponents();
     }
     

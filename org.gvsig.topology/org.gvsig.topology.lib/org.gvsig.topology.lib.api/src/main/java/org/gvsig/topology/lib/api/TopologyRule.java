@@ -30,11 +30,13 @@ import org.gvsig.tools.task.SimpleTaskStatus;
  *
  * @author jjdelcerro
  */
-public interface TopologyRule {
+public interface TopologyRule extends SerializableJSON {
     
     public void execute(SimpleTaskStatus taskStatus, TopologyReport report) throws ExecuteTopologyRuleException;
     
     public String getName();
+    
+    public String getId();
     
     public TopologyRuleFactory getFactory();
     

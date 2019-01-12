@@ -24,7 +24,7 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/jjdelcerro/datos/devel/org.gvsig.topology/org.gvsig.topology.swing/org.gvsig.topology.swing.impl/src/main/java/org/gvsig/topology/swing/impl/DefaultJTopologyReportView.xml</at>
+   <at name="id">/home/jjdelcerro/datos/devel/prototipo-topologia/org.gvsig.topology/org.gvsig.topology.swing/org.gvsig.topology.swing.impl/src/main/java/org/gvsig/topology/swing/impl/DefaultJTopologyReportView.xml</at>
    <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0),CENTER:DEFAULT:NONE</at>
    <at name="colspecs">FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE</at>
    <at name="components">
@@ -46,7 +46,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.575329425</at>
+        <at name="id">embedded.1759048609</at>
         <at name="rowspecs">CENTER:DEFAULT:NONE</at>
         <at name="colspecs">FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE</at>
         <at name="components">
@@ -155,8 +155,8 @@
                    </at>
                   </object>
                  </at>
-                 <at name="name"></at>
-                 <at name="width">352</at>
+                 <at name="width">629</at>
+                 <at name="name"/>
                  <at name="items">
                   <object classname="com.jeta.forms.store.properties.ItemsProperty">
                    <at name="name">items</at>
@@ -206,7 +206,6 @@
                        <object classname="com.jeta.forms.store.properties.EmptyBorderProperty">
                         <super classname="com.jeta.forms.store.properties.BorderProperty">
                          <at name="name">border</at>
-                         <at name="title"></at>
                         </super>
                         <at name="top">2</at>
                         <at name="left">2</at>
@@ -276,7 +275,6 @@
                        <object classname="com.jeta.forms.store.properties.EmptyBorderProperty">
                         <super classname="com.jeta.forms.store.properties.BorderProperty">
                          <at name="name">border</at>
-                         <at name="title"></at>
                         </super>
                         <at name="top">2</at>
                         <at name="left">2</at>
@@ -298,7 +296,7 @@
                    <at name="height">16</at>
                   </object>
                  </at>
-                 <at name="name"></at>
+                 <at name="name">btnShowExceptions</at>
                  <at name="width">20</at>
                  <at name="toolTipText">_Show_exceptions</at>
                  <at name="height">20</at>
@@ -345,7 +343,6 @@
                        <object classname="com.jeta.forms.store.properties.EmptyBorderProperty">
                         <super classname="com.jeta.forms.store.properties.BorderProperty">
                          <at name="name">border</at>
-                         <at name="title"></at>
                         </super>
                         <at name="top">2</at>
                         <at name="left">2</at>
@@ -367,7 +364,7 @@
                    <at name="height">16</at>
                   </object>
                  </at>
-                 <at name="name"></at>
+                 <at name="name">btnVisibleExtentOnly</at>
                  <at name="width">20</at>
                  <at name="toolTipText">_Visible_extent_only</at>
                  <at name="height">20</at>
@@ -435,7 +432,7 @@
                    <at name="height">16</at>
                   </object>
                  </at>
-                 <at name="name">btnRemoveDataSet</at>
+                 <at name="name">btnZoom</at>
                  <at name="width">20</at>
                  <at name="toolTipText">_Zoom</at>
                  <at name="height">20</at>
@@ -503,7 +500,7 @@
                    <at name="height">16</at>
                   </object>
                  </at>
-                 <at name="name">btnRemoveDataSet</at>
+                 <at name="name">btnCenter</at>
                  <at name="width">20</at>
                  <at name="toolTipText">_Center</at>
                  <at name="height">20</at>
@@ -571,7 +568,7 @@
                    <at name="height">16</at>
                   </object>
                  </at>
-                 <at name="name">btnRemoveDataSet</at>
+                 <at name="name">btnActions</at>
                  <at name="width">20</at>
                  <at name="toolTipText">_Actions</at>
                  <at name="height">20</at>
@@ -639,7 +636,7 @@
                    <at name="height">16</at>
                   </object>
                  </at>
-                 <at name="name">btnRemoveDataSet</at>
+                 <at name="name">btnRefresh</at>
                  <at name="width">20</at>
                  <at name="toolTipText">_refresh</at>
                  <at name="height">20</at>
@@ -776,8 +773,8 @@
               </at>
              </object>
             </at>
-            <at name="name"></at>
-            <at name="width">656</at>
+            <at name="name">tblErrors</at>
+            <at name="width">933</at>
             <at name="scollBars">
              <object classname="com.jeta.forms.store.properties.ScrollBarsProperty">
               <at name="name">scollBars</at>
@@ -830,7 +827,7 @@
          </at>
         </object>
        </at>
-       <at name="name"></at>
+       <at name="name"/>
        <at name="fill">
         <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
          <at name="name">fill</at>

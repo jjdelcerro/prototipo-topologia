@@ -64,7 +64,6 @@ public class DataSetsTreeModel implements TreeModel {
             FLyrVect layer = (FLyrVect)x;
             FeatureStore store = layer.getFeatureStore();
             x = TopologyLocator.getTopologyManager().createDataSet(
-                    this.services,
                     layer.getName(),
                     store
             );

@@ -16,7 +16,6 @@ import org.gvsig.topology.lib.api.TopologyLocator;
 import org.gvsig.topology.lib.api.TopologyPlan;
 import org.gvsig.topology.lib.api.TopologyRule;
 import org.gvsig.topology.swing.api.JTopologyPlanProperties;
-import org.gvsig.topology.swing.api.TopologySwingServices;
 
 /**
  *
@@ -27,11 +26,9 @@ public class DefaultJTopologyPlanProperties
         implements JTopologyPlanProperties {
 
     private TopologyPlan plan;
-    private TopologySwingServices services;
 
-    public DefaultJTopologyPlanProperties(TopologySwingServices services) {
-        this.services = services;
-        this.plan = TopologyLocator.getTopologyManager().createTopologyPlan(null);
+    public DefaultJTopologyPlanProperties() {
+        this.plan = TopologyLocator.getTopologyManager().createTopologyPlan();
 
         this.initComponents();
     }
@@ -105,19 +102,20 @@ public class DefaultJTopologyPlanProperties
         btnRemoveRule.setEnabled(!lstRules.isSelectionEmpty());
     }
     
-    public void setServices(TopologySwingServices services) {
-        this.services = services;
-    }
-
-    @Override
-    public TopologySwingServices getServices() {
-        return this.services;
-    }
+//    public void setServices(TopologySwingServices services) {
+//        this.services = services;
+//    }
+//
+//    @Override
+//    public TopologySwingServices getServices() {
+//        return this.services;
+//    }
 
     @Override
     public void put(TopologyPlan thePlan) {
-        this.plan = TopologyLocator.getTopologyManager().createTopologyPlan(thePlan.getTopologyServices());
+        this.plan = TopologyLocator.getTopologyManager().createTopologyPlan();
         this.plan.setName(thePlan.getName());
+        this.plan.setTolerance(thePlan.getTolerance());
         for (TopologyDataSet dataSet : thePlan.getDataSets()) {
             this.plan.addDataSet(dataSet);
         }
@@ -133,18 +131,18 @@ public class DefaultJTopologyPlanProperties
         }
         this.lstDataSets.setModel(modelDataSets);
 
-        this.lstDataSets.removeAll();
+        this.lstRules.removeAll();
         DefaultListModel<TopologyRule> modelRules = new DefaultListModel<>();
         for (TopologyRule rule : thePlan.getRules()) {
             modelRules.addElement(rule);
         }
-        this.lstDataSets.setModel(modelRules);
+        this.lstRules.setModel(modelRules);
     }
 
     @Override
     public TopologyPlan fetch(TopologyPlan thePlan) {
         if( thePlan == null ) {
-            thePlan = TopologyLocator.getTopologyManager().createTopologyPlan(this.services);
+            thePlan = TopologyLocator.getTopologyManager().createTopologyPlan();
         } else {
             thePlan.clear();
         }
@@ -165,7 +163,7 @@ public class DefaultJTopologyPlanProperties
 
     private void performAddDataSet() {
         WindowManager_v2 winManager = (WindowManager_v2) ToolsSwingLocator.getWindowManager();
-        SelectDataSetDialog panel = new SelectDataSetDialog(this.services);
+        SelectDataSetDialog panel = new SelectDataSetDialog();
         Dialog dlg = winManager.createDialog(
                 panel,
                 "_Select_a_dataset",

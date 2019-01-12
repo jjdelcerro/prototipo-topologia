@@ -50,6 +50,7 @@ import org.json.JSONObject;
  *
  * @author jjdelcerro
  */
+@SuppressWarnings("UseSpecificCatch")
 public class DefaultTopologyPlan implements TopologyPlan {
 
     private final TopologyManager manager;
@@ -68,7 +69,7 @@ public class DefaultTopologyPlan implements TopologyPlan {
         this.rules = new ArrayList<>();
         this.report = null;
         this.name = "TopologyPlan-" + String.format("%08X", new Date().getTime());
-        this.tolerance = 0;
+        this.tolerance = 0.001;
     }
 
     @Override
@@ -135,8 +136,8 @@ public class DefaultTopologyPlan implements TopologyPlan {
     }
 
     @Override
-    public TopologyDataSet addDataSet(String id, String name, FeatureStore store) {
-        TopologyDataSet dataSet = manager.createDataSet(services, name, store);
+    public TopologyDataSet addDataSet(String name, FeatureStore store) {
+        TopologyDataSet dataSet = manager.createDataSet(name, store);
         return this.addDataSet(dataSet);
     }
 
@@ -179,6 +180,9 @@ public class DefaultTopologyPlan implements TopologyPlan {
     @Override
     public TopologyRule addRule(String id, String dataSet1, String dataSet2, double tolerance) {
         TopologyRuleFactory factory = this.manager.getRulefactory(id);
+        if( factory == null ) {
+            throw new IllegalArgumentException("Can't locate factory for rule '"+id+"'.");
+        }
         if( ! this.canApplyRule(factory, dataSet1, dataSet2) ) {
             throw new IllegalArgumentException(
                     "Can't apply rule '"+factory.getName()+"' to the datasets '"+dataSet1+"/"+dataSet2+"'."
@@ -234,9 +238,8 @@ public class DefaultTopologyPlan implements TopologyPlan {
         return this.report;
     }
 
-
     @Override
-    public String toJSON() {
+    public JSONObject toJSON() {
         JSONObject me = new JSONObject();
 
         me.put("name", this.name);
@@ -250,41 +253,40 @@ public class DefaultTopologyPlan implements TopologyPlan {
         
         JSONArray jsonRules = new JSONArray();
         for (TopologyRule rule : this.rules) {
-            JSONObject jsonRule = new JSONObject();
-            jsonRule.put("dataSet1", rule.getDataSet1().getName());
-            jsonRule.put("dataSet2", (rule.getDataSet2()==null)? null:rule.getDataSet2().getName());
-            jsonRule.put("tolerance", rule.getTolerance());
+            JSONObject jsonRule = rule.toJSON();
+            jsonRule.put("__factoryId", rule.getFactory().getId());
             jsonRules.put(jsonRule);
         }
         me.put("rules", jsonRules);
         
-        return me.toString();
+        return me;
     }
-    
+
     @Override
-    public void fromJSON(String plan) {
-        JSONObject jsonPlan = new JSONObject(plan);
+    public void fromJSON(String json) {
+        this.fromJSON(new JSONObject(json));
+    }
+
+    @Override
+    public void fromJSON(JSONObject jsonPlan) {
         
         this.name = jsonPlan.getString("name");
         this.tolerance = jsonPlan.getDouble("tolerance");
         
         JSONArray jsonDataSets = jsonPlan.getJSONArray("dataSets");
         for (Object o : jsonDataSets) {
-            TopologyDataSet dataSet = new DefaultTopologyDataSet(
-                    this.services, (JSONObject) o
-            );
+            TopologyDataSet dataSet = new DefaultTopologyDataSet();
+            dataSet.fromJSON((JSONObject) o);
             this.dataSets.put(dataSet.getName(),dataSet);
         }
         
         JSONArray jsonRules = jsonPlan.getJSONArray("rules");
         for (Object o : jsonRules) {
             JSONObject jsonRule = (JSONObject) o;
-            this.addRule(
-                    jsonRule.getString("id"), 
-                    jsonRule.getString("dataSet1"), 
-                    jsonRule.getString("dataSet2"),
-                    jsonRule.getDouble("tolerance")
-            );
+            TopologyRuleFactory factory = this.manager.getRulefactory(jsonRule.getString("__factoryId"));
+            TopologyRule rule = factory.createRule(this);
+            rule.fromJSON(jsonRule);
+            this.addRule(rule);
         }        
     }
 

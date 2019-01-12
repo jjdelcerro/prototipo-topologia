@@ -40,6 +40,7 @@ import org.gvsig.topology.lib.api.TopologyRuleFactory;
  *
  * @author jjdelcerro
  */
+@SuppressWarnings("UseSpecificCatch")
 public class MustBeLargerThanToleranceLineRule extends AbstractTopologyRule {
 
     private class DeleteAction extends AbstractTopologyRuleAction {
@@ -68,6 +69,14 @@ public class MustBeLargerThanToleranceLineRule extends AbstractTopologyRule {
         }
         
     } 
+    
+    public MustBeLargerThanToleranceLineRule( 
+            TopologyPlan plan,
+            TopologyRuleFactory factory
+    ) {
+        super(plan, factory);
+        this.actions.add(new DeleteAction());
+    }
     
     public MustBeLargerThanToleranceLineRule( 
             TopologyPlan plan,
