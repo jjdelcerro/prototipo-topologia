@@ -25,6 +25,7 @@ package org.gvsig.topology.lib.api;
 
 import java.util.Collection;
 import org.gvsig.fmap.dal.feature.FeatureStore;
+import org.gvsig.tools.task.SimpleTaskStatus;
 
 /**
  *
@@ -47,6 +48,8 @@ public interface TopologyPlan extends SerializableJSON {
 
     public TopologyServices getTopologyServices();
 
+    public SimpleTaskStatus getTaskStatus();
+    
     public void execute();
     
     public TopologyDataSet addDataSet(String name, FeatureStore store);

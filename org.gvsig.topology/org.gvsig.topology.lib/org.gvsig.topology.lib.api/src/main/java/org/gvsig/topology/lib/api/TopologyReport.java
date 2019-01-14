@@ -26,18 +26,19 @@ package org.gvsig.topology.lib.api;
 import java.util.List;
 import org.gvsig.fmap.dal.feature.FeatureReference;
 import org.gvsig.fmap.geom.Geometry;
-import org.gvsig.tools.swing.api.ChangeListenerSupport;
 
 /**
  *
  * @author jjdelcerro
  */
-public interface TopologyReport extends ChangeListenerSupport {
+public interface TopologyReport extends TopologyReportLineSet {
 
-//    public interface TopologyReportFilter {
-//        public boolean accept(TopologyReportLine item);
-//    }
-//    
+    public static String RULE_ID = "RULE_ID";
+    public static String IS_ERROR = "IS_ERROR";
+    public static String IS_EXCEPTION = "IS_EXCEPTION";
+    public static String GEOMETRY = "GEOMETRY";
+
+    
     public TopologyReportLine addLine(
             TopologyRule rule,
             TopologyDataSet dataSet1,
@@ -53,6 +54,8 @@ public interface TopologyReport extends ChangeListenerSupport {
     
     public List<TopologyReportLine> getLines();
 
-//    public List<TopologyReportLine> getLines(TopologyReportFilter filter);
+    public List<TopologyReportLine> getLines(String filter);
+    
+    public TopologyReportLineSet getLineSet(String filter);
 
 }

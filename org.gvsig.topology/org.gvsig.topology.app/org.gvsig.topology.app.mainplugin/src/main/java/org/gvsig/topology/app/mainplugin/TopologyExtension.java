@@ -25,7 +25,6 @@ package org.gvsig.topology.app.mainplugin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.SwingUtilities;
 import org.apache.commons.lang.StringUtils;
 import org.gvsig.andami.plugins.Extension;
 import org.gvsig.app.ApplicationLocator;
@@ -33,6 +32,8 @@ import org.gvsig.app.ApplicationManager;
 import org.gvsig.app.project.documents.Document;
 import org.gvsig.app.project.documents.view.ViewDocument;
 import org.gvsig.app.project.documents.view.ViewManager;
+import org.gvsig.tools.ToolsLocator;
+import org.gvsig.tools.i18n.I18nManager;
 import org.gvsig.tools.swing.api.ToolsSwingLocator;
 import org.gvsig.tools.swing.api.windowmanager.Dialog;
 import org.gvsig.tools.swing.api.windowmanager.WindowManager;
@@ -72,6 +73,7 @@ public class TopologyExtension extends Extension {
     @Override
     public void execute(String action) {
         if( StringUtils.equalsIgnoreCase("tools-topology-create-or-modify", action) ) {
+            I18nManager i18n = ToolsLocator.getI18nManager();
             ApplicationManager application = ApplicationLocator.getManager();
             final ViewDocument view = (ViewDocument) application.getActiveDocument(ViewManager.TYPENAME);
             if( view==null ) {
@@ -93,7 +95,7 @@ public class TopologyExtension extends Extension {
             
             final Dialog dlg = winManager.createDialog(
                     panel.asJComponent(),
-                    "_Create_topology_plan",
+                    i18n.getTranslation("_Topology_plan"),
                     null, 
                     WindowManager_v2.BUTTONS_OK_CANCEL
             );
@@ -109,6 +111,7 @@ public class TopologyExtension extends Extension {
             dlg.show(WindowManager.MODE.WINDOW);
 
         } else if( StringUtils.equalsIgnoreCase("tools-topology-execute", action) ) {
+            I18nManager i18n = ToolsLocator.getI18nManager();
             ApplicationManager application = ApplicationLocator.getManager();
             final ViewDocument view = (ViewDocument) application.getActiveDocument(ViewManager.TYPENAME);
             if( view==null ) {
@@ -129,10 +132,10 @@ public class TopologyExtension extends Extension {
             final TopologyPlan plan = manager.createTopologyPlan();
             plan.fromJSON(jsonPlan);
             JTopologyReport panel = swingManager.createJTopologyReport(plan);
-            panel.put(plan.getReport());
+            panel.put(plan);
             winManager.showWindow(
                     panel.asJComponent(), 
-                    "_Error_inspector",
+                    i18n.getTranslation("_Topology_plan_error_inspector") + " ("+plan.getName()+")",
                     WindowManager.MODE.TOOL
             );
 
@@ -141,7 +144,7 @@ public class TopologyExtension extends Extension {
                 public void run() {
                     plan.execute();
                 }
-            }, "_Topology_plan "+ plan.getName());
+            }, "TopologyPlan-"+ plan.getName());
             th.start();
         }
     }

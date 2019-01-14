@@ -1,0 +1,20 @@
+{
+    "id": "MustBeLargerThanToleranceLine",
+    "name": "Must Be Larger Than Tolerance",
+    "description": [ 
+        "<img src=\"@@@.d/MustBeLargerThanToleranceLine.png\">\n",
+        "Requires that a feature does not collapse during a validate process.\n",
+        "This rule is mandatory for a topology and applies to all line feature classes.\n",
+        "In instances where this rule is violated, the original geometry is left unchanged.\n"
+    ],
+    "actions" : {
+        "delete": {
+            "name" : "Delete",
+            "description": [ 
+                "Removes line features that would collapse during the validate",
+                "process based on the topology's tolerance."
+            ],
+        }
+    }
+}
+

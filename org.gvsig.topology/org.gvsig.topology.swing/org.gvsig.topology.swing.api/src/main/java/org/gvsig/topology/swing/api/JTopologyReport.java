@@ -24,7 +24,7 @@
 package org.gvsig.topology.swing.api;
 
 import org.gvsig.tools.swing.api.Component;
-import org.gvsig.topology.lib.api.TopologyReport;
+import org.gvsig.topology.lib.api.TopologyPlan;
 
 /**
  *
@@ -32,7 +32,7 @@ import org.gvsig.topology.lib.api.TopologyReport;
  */
 public interface JTopologyReport extends Component {
 
-    public void put(TopologyReport report);
+    public void put(TopologyPlan plan);
     
     
 }

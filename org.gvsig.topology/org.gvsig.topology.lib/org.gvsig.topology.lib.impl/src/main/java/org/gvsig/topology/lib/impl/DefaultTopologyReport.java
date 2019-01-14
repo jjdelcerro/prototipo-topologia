@@ -26,38 +26,107 @@ package org.gvsig.topology.lib.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.swing.event.ChangeListener;
+import org.gvsig.expressionevaluator.Code;
+import org.gvsig.expressionevaluator.ExpressionEvaluatorLocator;
+import org.gvsig.expressionevaluator.ExpressionEvaluatorManager;
+import org.gvsig.expressionevaluator.MutableSymbolTable;
+import org.gvsig.expressionevaluator.spi.AbstractSymbolTable;
 import org.gvsig.fmap.dal.feature.FeatureReference;
 import org.gvsig.fmap.geom.Geometry;
-import org.gvsig.tools.swing.api.ChangeListenerHelper;
-import org.gvsig.tools.swing.api.ToolsSwingLocator;
+import org.gvsig.tools.task.SimpleTaskStatus;
 import org.gvsig.topology.lib.api.TopologyDataSet;
+import org.gvsig.topology.lib.api.TopologyPlan;
 import org.gvsig.topology.lib.api.TopologyReport;
+import static org.gvsig.topology.lib.api.TopologyReport.IS_ERROR;
+import static org.gvsig.topology.lib.api.TopologyReport.RULE_ID;
 import org.gvsig.topology.lib.api.TopologyReportLine;
+import org.gvsig.topology.lib.api.TopologyReportLineSet;
 import org.gvsig.topology.lib.api.TopologyRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jjdelcerro
  */
-public class DefaultTopologyReport implements TopologyReport {
+@SuppressWarnings("UseSpecificCatch")
+public class DefaultTopologyReport 
+        extends AbstractTopologyReportLineSet
+        implements TopologyReport 
+    {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTopologyReport.class);
+
+    private class DefaultTopologyReportLineSet extends AbstractTopologyReportLineSet {
+
+        public DefaultTopologyReportLineSet() {
+            super();
+        }
+
+        public void polulate(List<TopologyReportLine> allLines, String filter) {
+            this.lines.clear();
+            if (filter == null) {
+                this.lines.addAll(allLines);
+                this.completed = true;
+                return;
+            }
+            SimpleTaskStatus theTaskStatus = plan.getTaskStatus();
+            try {
+                theTaskStatus.restart();
+                theTaskStatus.message("Preparing filter");
+                theTaskStatus.setAutoremove(true);
+                theTaskStatus.setIndeterminate();
+
+                ExpressionEvaluatorManager manager = ExpressionEvaluatorLocator.getManager();
+
+                TopologyReportLineSymbolTable lineSymbolTable = new TopologyReportLineSymbolTable();
+                MutableSymbolTable symbolTable = manager.createSymbolTable();
+                symbolTable.addSymbolTable(lineSymbolTable);
+
+                Code code = manager.compile(filter);
+                code = manager.optimize(symbolTable, code);
+
+                theTaskStatus.setRangeOfValues(0, allLines.size());
+                theTaskStatus.setCurValue(0);
+                for (TopologyReportLine line : allLines) {
+                    lineSymbolTable.setLine(line);
+                    Object value = manager.evaluate(symbolTable, code);
+                    if (value instanceof Boolean && ((Boolean) value)) {
+                        this.lines.add(line);
+                        this.changeListenerHelper.fireEvent();
+                    }
+                    theTaskStatus.incrementCurrentValue();
+                }
+
+            } catch (Exception ex) {
+                LOGGER.warn("Problems filtering.", ex);
+                theTaskStatus.abort();
+            } finally {
+                if (theTaskStatus.isRunning()) {
+                    theTaskStatus.terminate();
+                }
+                this.completed = true;
+            }
+        }
+
+
+    }
 
     // TODO: Habria que meter las lineas del report en disco
-    private final List<TopologyReportLine> lines;
-    private final ChangeListenerHelper changeListenerHelper;
-    
-    public DefaultTopologyReport() {
-        this.lines = new ArrayList<>();
-        this.changeListenerHelper = ToolsSwingLocator.getToolsSwingManager().createChangeListenerHelper();
+    private final TopologyPlan plan;
+
+    public DefaultTopologyReport(TopologyPlan plan) {
+        this.plan = plan;
     }
 
     @Override
-    public TopologyReportLine addLine(TopologyRule rule, TopologyDataSet dataSet1,  
-            TopologyDataSet dataSet2, Geometry geometry, 
-            FeatureReference feature1, FeatureReference feature2, 
-            boolean exception, String description) {
+    public TopologyReportLine addLine(TopologyRule rule, TopologyDataSet dataSet1,
+            TopologyDataSet dataSet2, Geometry geometry,
+            FeatureReference feature1, FeatureReference feature2,
+            boolean exception, String description
+    ) {
         TopologyReportLine line = new DefaultTopologyReportLine(
-                this, rule, dataSet1, dataSet2, geometry, feature1, feature2, 
+                this, rule, dataSet1, dataSet2, geometry, feature1, feature2,
                 exception, description
         );
         this.lines.add(line);
@@ -68,48 +137,44 @@ public class DefaultTopologyReport implements TopologyReport {
     @Override
     public void removeAllLines() {
         this.lines.clear();
-        this.changeListenerHelper.fireEvent();
+        this.fireChangeEvent();
     }
 
     @Override
-    public List<TopologyReportLine> getLines() {
-        return Collections.unmodifiableList(this.lines);
-    }
-
-//    @Override
-//    public List<TopologyReportLine> getLines(TopologyReportFilter filter) {
-//        List<TopologyReportLine> ll = new ArrayList<>();
-//        for (TopologyReportLine line : this.lines) {
-//            if( filter.accept(line) ) {
-//                ll.add(line);
-//            }
-//        }
-//        return ll;
-//    }
-
-    @Override
-    public void addChangeListener(ChangeListener cl) {
-        this.changeListenerHelper.addChangeListener(cl);
+    public TopologyReportLineSet getLineSet(final String filter) {
+        final DefaultTopologyReportLineSet set = new DefaultTopologyReportLineSet();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                set.polulate(lines, filter);
+            }
+        });
+        th.start();
+        return set;
     }
 
     @Override
-    public ChangeListener[] getChangeListeners() {
-        return this.changeListenerHelper.getChangeListeners();
-    }
+    public List<TopologyReportLine> getLines(String filter) {
+        if (filter == null) {
+            return Collections.unmodifiableList(this.lines);
+        }
+        List<TopologyReportLine> ll = new ArrayList<>();
+        ExpressionEvaluatorManager manager = ExpressionEvaluatorLocator.getManager();
 
-    @Override
-    public void removeChangeListener(ChangeListener cl) {
-        this.changeListenerHelper.removeChangeListener(cl);
-    }
+        TopologyReportLineSymbolTable lineSymbolTable = new TopologyReportLineSymbolTable();
+        MutableSymbolTable symbolTable = manager.createSymbolTable();
+        symbolTable.addSymbolTable(lineSymbolTable);
 
-    @Override
-    public void removeAllChangeListener() {
-        this.changeListenerHelper.removeAllChangeListener();
-    }
+        Code code = manager.compile(filter);
+        code = manager.optimize(symbolTable, code);
 
-    @Override
-    public boolean hasChangeListeners() {
-        return this.changeListenerHelper.hasChangeListeners();
+        for (TopologyReportLine line : this.lines) {
+            lineSymbolTable.setLine(line);
+            Object value = manager.evaluate(symbolTable, code);
+            if (value instanceof Boolean && ((Boolean) value)) {
+                ll.add(line);
+            }
+        }
+        return Collections.unmodifiableList(ll);
     }
-    
 }

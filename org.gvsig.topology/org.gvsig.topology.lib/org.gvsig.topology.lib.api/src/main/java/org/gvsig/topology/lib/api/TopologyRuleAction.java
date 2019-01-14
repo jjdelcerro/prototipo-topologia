@@ -37,6 +37,10 @@ public interface TopologyRuleAction {
     
     public String getShortDescription();
     
+    public TopologyRuleFactory getRuleFactory();
+    
+    public boolean hasParameters();
+    
     public DynObject createParameters();
     
     public void execute(

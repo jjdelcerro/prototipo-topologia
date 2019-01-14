@@ -134,7 +134,7 @@
              </object>
             </at>
             <at name="name">txtName</at>
-            <at name="width">844</at>
+            <at name="width">880</at>
             <at name="height">20</at>
            </object>
           </at>
@@ -222,7 +222,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.816360693</at>
+                     <at name="id">embedded.1535098908</at>
                      <at name="rowspecs">CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -274,7 +274,7 @@
                               <at name="scrollableTracksViewportHeight">true</at>
                               <at name="scrollableTracksViewportWidth">true</at>
                               <at name="name">lstDataSets</at>
-                              <at name="width">870</at>
+                              <at name="width">906</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -307,7 +307,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="height">352</at>
+                              <at name="height">346</at>
                              </object>
                             </at>
                            </object>
@@ -332,7 +332,7 @@
                            </at>
                            <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                           </super>
-                          <at name="id">embedded.1116617034</at>
+                          <at name="id">embedded.963242669</at>
                           <at name="rowspecs">CENTER:DEFAULT:NONE</at>
                           <at name="colspecs">FILL:8DLU:GROW(1.0),FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
                           <at name="components">
@@ -396,7 +396,7 @@
                                    </at>
                                    <at name="name">btnAddDataSet</at>
                                    <at name="width">20</at>
-                                   <at name="toolTipText">_Add_dataSet</at>
+                                   <at name="toolTipText">_Add_dataset</at>
                                    <at name="height">20</at>
                                   </object>
                                  </at>
@@ -464,7 +464,7 @@
                                    </at>
                                    <at name="name">btnRemoveDataSet</at>
                                    <at name="width">20</at>
-                                   <at name="toolTipText">_Remove_dataSet</at>
+                                   <at name="toolTipText">_Remove_dataset</at>
                                    <at name="height">20</at>
                                   </object>
                                  </at>
@@ -679,7 +679,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.1823390704</at>
+                     <at name="id">embedded.2016354724</at>
                      <at name="rowspecs">CENTER:2DLU:NONE,FILL:DEFAULT:GROW(1.0),CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -731,7 +731,7 @@
                               <at name="scrollableTracksViewportHeight">true</at>
                               <at name="scrollableTracksViewportWidth">true</at>
                               <at name="name">lstRules</at>
-                              <at name="width">870</at>
+                              <at name="width">906</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -764,7 +764,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="height">352</at>
+                              <at name="height">346</at>
                              </object>
                             </at>
                            </object>
@@ -789,7 +789,7 @@
                            </at>
                            <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                           </super>
-                          <at name="id">embedded.1378569269</at>
+                          <at name="id">embedded.877338052</at>
                           <at name="rowspecs">CENTER:DEFAULT:NONE</at>
                           <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
                           <at name="components">
@@ -1112,9 +1112,9 @@
               </at>
              </object>
             </at>
-            <at name="width">917</at>
+            <at name="width">953</at>
             <at name="tabCount">2</at>
-            <at name="height">490</at>
+            <at name="height">484</at>
            </object>
           </at>
          </object>
@@ -1228,7 +1228,7 @@
             </at>
             <at name="horizontalAlignment">4</at>
             <at name="name">txtTolerance</at>
-            <at name="width">844</at>
+            <at name="width">880</at>
             <at name="height">20</at>
            </object>
           </at>

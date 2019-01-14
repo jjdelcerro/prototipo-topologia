@@ -24,7 +24,9 @@
 package org.gvsig.topology.app.mainplugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.tree.TreeModel;
 import org.apache.commons.lang3.mutable.Mutable;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -38,6 +40,10 @@ import org.gvsig.fmap.dal.feature.FeatureStore;
 import org.gvsig.fmap.geom.primitive.Envelope;
 import org.gvsig.fmap.geom.primitive.Point;
 import org.gvsig.fmap.mapcontext.ViewPort;
+import org.gvsig.fmap.mapcontext.events.ColorEvent;
+import org.gvsig.fmap.mapcontext.events.ExtentEvent;
+import org.gvsig.fmap.mapcontext.events.ProjectionEvent;
+import org.gvsig.fmap.mapcontext.events.listeners.ViewPortListener;
 import org.gvsig.fmap.mapcontext.layers.FLayers;
 import org.gvsig.fmap.mapcontext.layers.vectorial.FLyrVect;
 import org.gvsig.tools.exception.BaseException;
@@ -56,6 +62,40 @@ import org.slf4j.LoggerFactory;
 public class AppTopologyServices implements TopologySwingServices {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppTopologyServices.class);
+ 
+    private class WorkingAreaViewPortListener implements ViewPortListener {
+    
+        private WorkingAreaChangedListener workingAreaChangedListener;
+        private ViewPort viewPort;
+        
+        public WorkingAreaViewPortListener(ViewPort viewPort, WorkingAreaChangedListener workingAreaChangedListener) {
+            this.workingAreaChangedListener = workingAreaChangedListener;
+            this.viewPort = viewPort;
+        }
+
+        public ViewPort getViewPort() {
+            return this.viewPort;
+        }
+        
+        @Override
+        public void extentChanged(ExtentEvent e) {
+            this.workingAreaChangedListener.workingAreaChanged(e.getNewExtent());
+        }
+
+        @Override
+        public void backColorChanged(ColorEvent e) {
+        }
+
+        @Override
+        public void projectionChanged(ProjectionEvent e) {
+        }
+    }
+
+    private Map<WorkingAreaChangedListener, WorkingAreaViewPortListener> workingAreaListener;
+    
+    public AppTopologyServices() {
+        this.workingAreaListener = new HashMap<>();
+    }
     
     @Override
     public TreeModel getDataSetTreeModel() {
@@ -138,7 +178,40 @@ public class AppTopologyServices implements TopologySwingServices {
         if( viewdoc == null ) {
             return null;
         }
-        return viewdoc.getMapContext().getViewPort().getEnvelope();
+        ViewPort viewPort = viewdoc.getMapContext().getViewPort();
+        return viewPort.getEnvelope();
     }
+
+    @Override
+    public void addWorkingAreaChangedListener(WorkingAreaChangedListener listener) {
+        ApplicationManager application = ApplicationLocator.getManager();
+        ViewDocument viewdoc = (ViewDocument) application.getActiveDocument(ViewManager.TYPENAME);
+        if( viewdoc == null ) {
+            return;
+        }
+        ViewPort viewPort = viewdoc.getMapContext().getViewPort();
+        WorkingAreaViewPortListener viewPortListener = this.workingAreaListener.get(listener);
+        if( viewPortListener==null ) {
+            viewPortListener = new WorkingAreaViewPortListener(viewPort, listener);
+            this.workingAreaListener.put(listener, viewPortListener);
+        } else {
+            if( viewPort != viewPortListener.getViewPort() ) {
+                viewPortListener.getViewPort().removeViewPortListener(viewPortListener);
+                viewPortListener = new WorkingAreaViewPortListener(viewPort, listener);
+                this.workingAreaListener.put(listener, viewPortListener);
+            }
+        }
+        viewPortListener.getViewPort().addViewPortListener(viewPortListener);
+    }
+
+    @Override
+    public void removeWorkingAreaChangedListener(WorkingAreaChangedListener listener) {
+        WorkingAreaViewPortListener viewPortListener = this.workingAreaListener.get(listener);
+        if( viewPortListener==null ) {
+            return;
+        }
+        viewPortListener.getViewPort().removeViewPortListener(viewPortListener);     
+    }
+    
     
 }

@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import org.gvsig.tools.swing.api.ToolsSwingLocator;
@@ -32,14 +31,19 @@ public class CreateRuleDialog extends CreateRuleDialogView {
 
     private final TopologyPlan plan;
     private Dialog dialog;
-    
-    CreateRuleDialog(TopologyPlan plan ){
+
+    CreateRuleDialog(TopologyPlan plan) {
         this.plan = plan;
         this.dialog = null;
         this.initComponents();
     }
 
     private void initComponents() {
+        ToolsSwingManager toolsSwingManager = ToolsSwingLocator.getToolsSwingManager();
+
+        toolsSwingManager.setDefaultPopupMenu(this.txtDescription);
+        this.txtDescription.setPreferredSize(new Dimension(200,200));
+
         DefaultComboBoxModel<TopologyDataSet> model1 = new DefaultComboBoxModel<>();
         for (TopologyDataSet dataSet : this.plan.getDataSets()) {
             model1.addElement(dataSet);
@@ -75,24 +79,24 @@ public class CreateRuleDialog extends CreateRuleDialogView {
                 validateData();
             }
         });
-        
+
         this.setOkButtonEnabled(false);
         this.cboRule.setSelectedIndex(-1);
         this.cboRule.setEnabled(false);
         this.cboDataSet2.setEnabled(false);
         this.cboDataSet2.setSelectedItem(-1);
-        
-        this.setPreferredSize(new Dimension(650, 200));        
-        
+
+        this.setPreferredSize(new Dimension(650, 200));
+
         this.translate();
     }
-    
+
     public void setDialog(Dialog dialog) {
         this.dialog = dialog;
     }
-    
+
     private void setOkButtonEnabled(boolean enabled) {
-        if( this.dialog==null ) {
+        if (this.dialog == null) {
             return;
         }
         this.dialog.setButtonEnabled(WindowManager_v2.BUTTONS_OK, enabled);
@@ -100,27 +104,27 @@ public class CreateRuleDialog extends CreateRuleDialogView {
 
     private void translate() {
         ToolsSwingManager tsm = ToolsSwingLocator.getToolsSwingManager();
-        tsm.translate(this.lblDataSet1);    
-        tsm.translate(this.lblDataSet2);    
-        tsm.translate(this.lblLabelDescription);    
-        tsm.translate(this.lblRule);    
-        tsm.translate(this.lblTolerance);    
+        tsm.translate(this.lblDataSet1);
+        tsm.translate(this.lblDataSet2);
+//        tsm.translate(this.lblLabelDescription);
+        tsm.translate(this.lblRule);
+        tsm.translate(this.lblTolerance);
     }
 
     private void validateData() {
         try {
             double x = Double.parseDouble(this.txtTolerance.getText());
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             this.setOkButtonEnabled(false);
             return;
         }
         TopologyDataSet dataSet = (TopologyDataSet) this.cboDataSet1.getSelectedItem();
-        if( dataSet==null ) {
+        if (dataSet == null) {
             this.setOkButtonEnabled(false);
             return;
         }
         TopologyRuleFactory ruleFactory = (TopologyRuleFactory) this.cboRule.getSelectedItem();
-        if( ruleFactory==null ) {
+        if (ruleFactory == null) {
             this.setOkButtonEnabled(false);
             return;
         }
@@ -129,13 +133,13 @@ public class CreateRuleDialog extends CreateRuleDialogView {
 
     private void performDataSet1Selected() {
         TopologyDataSet dataSet = (TopologyDataSet) this.cboDataSet1.getSelectedItem();
-        if( dataSet==null ) {
+        if (dataSet == null) {
             this.setOkButtonEnabled(false);
             this.cboRule.setSelectedIndex(-1);
             this.cboRule.setEnabled(false);
             this.cboDataSet2.setEnabled(false);
             this.cboDataSet2.setSelectedItem(-1);
-            return ;
+            return;
         }
         TopologyManager manager = TopologyLocator.getTopologyManager();
         DefaultComboBoxModel<TopologyRuleFactory> model1 = new DefaultComboBoxModel<>();
@@ -149,49 +153,53 @@ public class CreateRuleDialog extends CreateRuleDialogView {
 
     private void performRuleSelected() {
         TopologyRuleFactory ruleFactory = (TopologyRuleFactory) this.cboRule.getSelectedItem();
-        if( ruleFactory==null ) {
+        if (ruleFactory == null) {
             this.setOkButtonEnabled(false);
             this.cboDataSet2.setEnabled(false);
             this.cboDataSet2.setSelectedItem(-1);
-            return ;
+            return;
         }
         DefaultComboBoxModel<TopologyDataSet> model2 = new DefaultComboBoxModel<>();
-        if( ruleFactory.hasSecondaryDataSet() ) {
-            for (TopologyDataSet dataSet : this.plan.getSecondaryDataSets(ruleFactory) ) {
+        if (ruleFactory.hasSecondaryDataSet()) {
+            for (TopologyDataSet dataSet : this.plan.getSecondaryDataSets(ruleFactory)) {
                 model2.addElement(dataSet);
             }
         }
-        if( model2.getSize()==0 ) {
+        if (model2.getSize() == 0) {
             this.cboDataSet2.setEnabled(false);
         } else {
             this.cboDataSet2.setEnabled(true);
         }
         this.cboDataSet2.setModel(model2);
         this.cboDataSet2.setSelectedItem(-1);
+
+        StringBuilder html = new StringBuilder();
+        html.append("<html>\n");
+        html.append(ruleFactory.getDescription().replace("\n", "<br>")).append("<br>\n");
+        html.append("</html>\n");
+
+        this.txtDescription.setContentType("text/html");
+        this.txtDescription.setText(html.toString());
+        this.txtDescription.setCaretPosition(0);
         
-        this.lblImage.setIcon(new ImageIcon(ruleFactory.getImageDescription()));
-        String description = ruleFactory.getDescription();
-        description = description.replace("\\n", "<br>\n");
-        description = description.replace("\n", "<br>\n");
-        this.txtDescription.setText("<html><p>"+description+"</p></html>");
         this.validateData();
     }
-    
+
     public TopologyRule getRule() {
         TopologyDataSet dataSet1 = (TopologyDataSet) this.cboDataSet1.getSelectedItem();
         TopologyRuleFactory ruleFactory = (TopologyRuleFactory) this.cboRule.getSelectedItem();
-        if( dataSet1==null || ruleFactory==null ) {
+        if (dataSet1 == null || ruleFactory == null) {
             return null;
         }
         TopologyDataSet dataSet2 = (TopologyDataSet) this.cboDataSet2.getSelectedItem();
         double tolerance = this.plan.getTolerance();
         try {
             tolerance = Double.parseDouble(this.txtTolerance.getText());
-        } catch(Exception ex) {
-            
+        } catch (Exception ex) {
+
         }
         TopologyRule rule = ruleFactory.createRule(plan, dataSet1.getName(), dataSet2.getName(), tolerance);
         return rule;
     }
-    
+
 }

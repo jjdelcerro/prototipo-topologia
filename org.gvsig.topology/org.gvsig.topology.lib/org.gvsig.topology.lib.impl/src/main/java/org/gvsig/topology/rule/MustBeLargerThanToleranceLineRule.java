@@ -26,8 +26,8 @@ package org.gvsig.topology.rule;
 import org.gvsig.fmap.dal.feature.Feature;
 import org.gvsig.fmap.geom.Geometry;
 import org.gvsig.tools.dynobject.DynObject;
-import org.gvsig.topology.lib.api.AbstractTopologyRule;
-import org.gvsig.topology.lib.api.AbstractTopologyRuleAction;
+import org.gvsig.topology.lib.spi.AbstractTopologyRule;
+import org.gvsig.topology.lib.spi.AbstractTopologyRuleAction;
 import org.gvsig.topology.lib.api.ExecuteTopologyRuleActionException;
 import org.gvsig.topology.lib.api.TopologyDataSet;
 import org.gvsig.topology.lib.api.TopologyPlan;
@@ -47,17 +47,13 @@ public class MustBeLargerThanToleranceLineRule extends AbstractTopologyRule {
 
         public DeleteAction() {
             super(
-                    "delete", 
-                    "Delete", 
-                    "Removes line features that would collapse during the validate process based on the topology's tolerance."
+                "MustBeLargerThanToleranceLine", 
+                "delete", 
+                "Delete", 
+                "Removes line features that would collapse during the validate process based on the topology's tolerance."
             );
         }
         
-        @Override
-        public DynObject createParameters() {
-            return null;
-        }
-
         @Override
         public void execute(TopologyRule rule, TopologyReportLine line, DynObject parameters) {
             try {

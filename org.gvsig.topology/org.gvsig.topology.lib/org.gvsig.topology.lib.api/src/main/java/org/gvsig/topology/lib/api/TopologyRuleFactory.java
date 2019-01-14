@@ -38,8 +38,6 @@ public interface TopologyRuleFactory {
     
     public String getDescription();
     
-    public Image getImageDescription();
-    
     public List<Integer> getGeometryTypeDataSet1();
     
     public List<Integer> getGeometryTypeDataSet2();

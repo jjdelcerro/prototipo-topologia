@@ -1,0 +1,20 @@
+{
+    "id": "ContainsPoint",
+    "name": "Contiene un punto",
+    "description": [ 
+        "<img src=\"@@@.d/ContainsPoint.png\">\n",
+        "Requiere que cada poligono del conjunto de datos contenga al menos un punto del otro conjunto de datos.\n",
+        "Los puntos deben estar contenidos en el poligono, no en su perimetro,\n"
+    ],
+    "actions" : {
+        "CreateFeature": {
+            "name" : "Crear feature",
+            "description": [ 
+                "<i>Crear feature</i> realiza la correccion creando un nuevo punto en",
+                "la feature, en el centroide del poligono que ha causado el error.\n",
+                "El punto creado en la feature se garantiza que estara dentro del polygono de la feature."
+            ],
+        }
+    }
+}
+

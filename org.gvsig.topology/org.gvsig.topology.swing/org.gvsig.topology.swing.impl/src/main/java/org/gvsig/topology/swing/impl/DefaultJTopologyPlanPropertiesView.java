@@ -180,14 +180,14 @@ public class DefaultJTopologyPlanPropertiesView extends JPanel
 
       btnAddDataSet.setIcon(loadImage("org/gvsig/topology/swing/impl/images/dataset_add.png"));
       btnAddDataSet.setName("btnAddDataSet");
-      btnAddDataSet.setToolTipText("_Add_dataSet");
+      btnAddDataSet.setToolTipText("_Add_dataset");
       EmptyBorder emptyborder1 = new EmptyBorder(2,2,2,2);
       btnAddDataSet.setBorder(emptyborder1);
       jpanel1.add(btnAddDataSet,cc.xy(6,1));
 
       btnRemoveDataSet.setIcon(loadImage("org/gvsig/topology/swing/impl/images/dataset_remove.png"));
       btnRemoveDataSet.setName("btnRemoveDataSet");
-      btnRemoveDataSet.setToolTipText("_Remove_dataSet");
+      btnRemoveDataSet.setToolTipText("_Remove_dataset");
       EmptyBorder emptyborder2 = new EmptyBorder(2,2,2,2);
       btnRemoveDataSet.setBorder(emptyborder2);
       jpanel1.add(btnRemoveDataSet,cc.xy(4,1));

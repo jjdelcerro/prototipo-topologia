@@ -21,7 +21,7 @@
  * For any additional information, do not hesitate to contact us
  * at info AT gvsig.com, or visit our website www.gvsig.com.
  */
-package org.gvsig.topology.lib.api;
+package org.gvsig.topology.lib.spi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,6 +32,12 @@ import org.gvsig.tools.exception.BaseException;
 import org.gvsig.tools.task.SimpleTaskStatus;
 import org.gvsig.tools.visitor.VisitCanceledException;
 import org.gvsig.tools.visitor.Visitor;
+import org.gvsig.topology.lib.api.TopologyDataSet;
+import org.gvsig.topology.lib.api.TopologyPlan;
+import org.gvsig.topology.lib.api.TopologyReport;
+import org.gvsig.topology.lib.api.TopologyRule;
+import org.gvsig.topology.lib.api.TopologyRuleAction;
+import org.gvsig.topology.lib.api.TopologyRuleFactory;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +56,7 @@ public abstract class AbstractTopologyRule implements TopologyRule {
     private String dataSet1;
     private String dataSet2;
 
-    protected TopologyReport report;
+//    protected TopologyReport report;
     protected List<TopologyRuleAction> actions;
 
     protected AbstractTopologyRule(
@@ -63,7 +69,7 @@ public abstract class AbstractTopologyRule implements TopologyRule {
         this.tolerance = plan.getTolerance();
         this.dataSet1 = null;
         this.dataSet2 = null;
-        this.report = null;
+//        this.report = null;
         this.actions = new ArrayList<>();
     }
     
@@ -206,8 +212,7 @@ public abstract class AbstractTopologyRule implements TopologyRule {
     
     @Override
     public void fromJSON(JSONObject json) {
-        this.report = null;
-        this.actions = new ArrayList<>();
+//        this.report = null;
 
         if( json.has("tolerance") ) {
             this.tolerance = json.getDouble("tolerance");

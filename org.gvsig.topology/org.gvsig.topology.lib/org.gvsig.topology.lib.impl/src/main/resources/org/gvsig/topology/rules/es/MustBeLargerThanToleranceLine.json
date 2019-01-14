@@ -1,0 +1,20 @@
+{
+    "id": "MustBeLargerThanToleranceLine",
+    "name": "Debe ser mayor que la tolerancia",
+    "description": [ 
+        "<img src=\"@@@.d/MustBeLargerThanToleranceLine.png\">\n",
+        "Requiere que una feature no colapse durante el proceso de validacion.\n",
+        "Esta regla es obligatoria para una topologia y aplica a todas las features de typo linea.\n",
+        "En instancias donde esta regla es violada, la geometria original permanece sin cambios.\n"
+    ],
+    "actions" : {
+        "delete": {
+            "name" : "Eliminar",
+            "description": [ 
+                "Elimina las  Removes features que colapsaran durante el proceso",
+                "de validacion basado en la tolerancia topologica."
+            ],
+        }
+    }
+}
+

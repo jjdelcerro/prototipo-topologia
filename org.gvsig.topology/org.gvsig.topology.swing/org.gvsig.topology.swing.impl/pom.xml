@@ -28,5 +28,11 @@
             <artifactId>jgoodies-forms</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.gvsig</groupId>
+            <artifactId>org.gvsig.tools.dynform.api</artifactId>
+            <version>3.0.175</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>

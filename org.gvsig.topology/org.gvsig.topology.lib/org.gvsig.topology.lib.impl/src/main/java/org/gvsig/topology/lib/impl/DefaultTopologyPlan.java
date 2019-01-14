@@ -45,6 +45,8 @@ import org.gvsig.topology.lib.api.TopologyRuleFactory;
 import org.gvsig.topology.lib.api.TopologyServices;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -53,14 +55,17 @@ import org.json.JSONObject;
 @SuppressWarnings("UseSpecificCatch")
 public class DefaultTopologyPlan implements TopologyPlan {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTopologyPlan.class);
+    
     private final TopologyManager manager;
     private final Map<String,TopologyDataSet> dataSets;
     private final List<TopologyRule> rules;
 
     private String name;
-    private TopologyReport report;
+    private DefaultTopologyReport report;
     private TopologyServices services;
     private double tolerance;
+    private SimpleTaskStatus taskStatus;
     
     public DefaultTopologyPlan(TopologyManager manager, TopologyServices services) {
         this.manager = manager;
@@ -112,26 +117,48 @@ public class DefaultTopologyPlan implements TopologyPlan {
         return this.services;
     }
     
+    public SimpleTaskStatus getTaskStatus() {
+        if( this.taskStatus == null ) {
+            this.taskStatus = ToolsLocator.getTaskStatusManager()
+                    .createDefaultSimpleTaskStatus(this.getName());
+        }
+        return this.taskStatus;
+    }
+    
     @Override
     public void execute() {
-        SimpleTaskStatus taskStatus = ToolsLocator.getTaskStatusManager()
-                .createDefaultSimpleTaskStatus(this.getName());
-        
-        taskStatus.message("Preparing the execution of the plan");
-        taskStatus.setAutoremove(true);
-        taskStatus.setIndeterminate();
-        long steps = 0;
-        for (TopologyRule rule : this.rules) {
-            steps += rule.getSteps();
-            steps++;
-        }
-        
-        taskStatus.setRangeOfValues(0, steps);
-        taskStatus.setCurValue(0);
-        for (TopologyRule rule : this.rules) {
-            taskStatus.message(rule.getName());
-            rule.execute(taskStatus, this.getReport());
-            taskStatus.incrementCurrentValue();
+        SimpleTaskStatus theTaskStatus = this.getTaskStatus();
+        try {
+            theTaskStatus.restart();
+            theTaskStatus.message("Preparing the execution of the plan");
+            theTaskStatus.setAutoremove(true);
+            theTaskStatus.setIndeterminate();
+            this.getReport().removeAllLines();
+            long steps = 0;
+            for (TopologyRule rule : this.rules) {
+                steps += rule.getSteps();
+                steps++;
+            }
+
+            theTaskStatus.setRangeOfValues(0, steps);
+            theTaskStatus.setCurValue(0);
+            for (TopologyRule rule : this.rules) {
+                if( theTaskStatus.isCancellationRequested() ) {
+                    theTaskStatus.cancel();
+                    break;
+                }
+                theTaskStatus.message(rule.getName());
+                rule.execute(theTaskStatus, this.getReport());
+                theTaskStatus.incrementCurrentValue();
+            }
+        } catch(Exception ex) {
+            LOGGER.warn("Problems executing topology plan '"+this.getName()+"'.", ex);
+            theTaskStatus.abort();
+        } finally {
+            if( theTaskStatus.isRunning() ) {
+                theTaskStatus.terminate();
+            }
+            this.getReport().setCompleted(true);
         }
     }
 
@@ -231,9 +258,9 @@ public class DefaultTopologyPlan implements TopologyPlan {
     }
 
     @Override
-    public TopologyReport getReport() {
+    public DefaultTopologyReport getReport() {
         if( this.report == null ) {
-            this.report = new DefaultTopologyReport();
+            this.report = new DefaultTopologyReport(this);
         }
         return this.report;
     }

@@ -21,7 +21,13 @@
  * For any additional information, do not hesitate to contact us
  * at info AT gvsig.com, or visit our website www.gvsig.com.
  */
-package org.gvsig.topology.lib.api;
+package org.gvsig.topology.lib.spi;
+
+import org.gvsig.tools.dynobject.DynObject;
+import org.gvsig.topology.lib.api.TopologyLocator;
+import org.gvsig.topology.lib.api.TopologyRuleAction;
+import org.gvsig.topology.lib.api.TopologyRuleFactory;
+import org.json.JSONObject;
 
 /**
  *
@@ -29,23 +35,27 @@ package org.gvsig.topology.lib.api;
  */
 public abstract class AbstractTopologyRuleAction implements TopologyRuleAction {
 
-    private final String id;
-    private final String name;
-    private final String shortDescription;
+    private final String idAction;
+    private final String idRule;
+    private String name;
+    private String shortDescription;
 
     protected AbstractTopologyRuleAction(
-            String id,
+            String idRule,
+            String idAction,
             String name,
             String shortDescription
         ) {
-        this.id = id;
+        this.idRule = idRule;
+        this.idAction = idAction;
         this.name = name;
         this.shortDescription = shortDescription;
+        this.load_from_resource();
     }
     
     @Override
     public String getId() {
-        return this.id;
+        return this.idAction;
     }
 
     @Override
@@ -57,5 +67,35 @@ public abstract class AbstractTopologyRuleAction implements TopologyRuleAction {
     public String getShortDescription() {
         return this.shortDescription;
     }
+
+    @Override
+    public TopologyRuleFactory getRuleFactory() {
+        TopologyRuleFactory f = TopologyLocator.getTopologyManager().getRulefactory(this.idRule);
+        return f;
+    }
+
+    @Override
+    public boolean hasParameters() {
+        return false;
+    }
+
+    @Override
+    public DynObject createParameters() {
+        return null;
+    }
     
+    private void load_from_resource() {
+        JSONObject rule = RuleResourceLoaderUtils.getRule(this.idRule);
+        if( rule == null ) {
+            return;
+        }
+        JSONObject action = RuleResourceLoaderUtils.getAction(rule, this.idAction);
+        if( action.has("name") ) {
+            this.name = action.getString("name");
+        }
+        if( action.has("description") ) {
+            this.shortDescription = RuleResourceLoaderUtils.getDescription(this.idRule, action);
+        }
+    }
+
 }

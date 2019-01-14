@@ -24,8 +24,8 @@
 package org.gvsig.topology.rule;
 
 import org.gvsig.fmap.geom.Geometry;
-import org.gvsig.topology.lib.api.AbstractTopologyRuleFactory;
-import org.gvsig.topology.lib.api.ListBuilder;
+import org.gvsig.tools.util.ListBuilder;
+import org.gvsig.topology.lib.spi.AbstractTopologyRuleFactory;
 import org.gvsig.topology.lib.api.TopologyPlan;
 import org.gvsig.topology.lib.api.TopologyRule;
 
@@ -40,7 +40,6 @@ public class ContainsPointRuleFactory extends AbstractTopologyRuleFactory {
                 "ContainsPoint", 
                 "Contains Point", 
                 "Requires that a polygon in one dataset contain at least one point from another dataset. Points must be within the polygon, not on the boundary. ", 
-                ContainsPointRuleFactory.class.getResource("ContainsPoint.png"), 
                 new ListBuilder<Integer>()
                         .add(Geometry.TYPES.SURFACE)
                         .add(Geometry.TYPES.MULTISURFACE)

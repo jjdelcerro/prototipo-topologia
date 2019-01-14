@@ -7,6 +7,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.gvsig.tools.ToolsLocator;
+import org.gvsig.tools.i18n.I18nManager;
 import org.gvsig.tools.swing.api.ToolsSwingLocator;
 import org.gvsig.tools.swing.api.ToolsSwingManager;
 import org.gvsig.tools.swing.api.windowmanager.Dialog;
@@ -86,6 +88,7 @@ public class DefaultJTopologyPlanProperties
         tsm.translate(this.btnRemoveDataSet);
         tsm.translate(this.lblName);
         tsm.translate(this.tabPanel);
+        tsm.translate(this.lblTolerance);
     }
     
     public void performDataSetSelected() {
@@ -101,15 +104,6 @@ public class DefaultJTopologyPlanProperties
         }
         btnRemoveRule.setEnabled(!lstRules.isSelectionEmpty());
     }
-    
-//    public void setServices(TopologySwingServices services) {
-//        this.services = services;
-//    }
-//
-//    @Override
-//    public TopologySwingServices getServices() {
-//        return this.services;
-//    }
 
     @Override
     public void put(TopologyPlan thePlan) {
@@ -124,6 +118,7 @@ public class DefaultJTopologyPlanProperties
         }
         
         this.txtName.setText(this.plan.getName());
+        this.txtTolerance.setText(String.valueOf(this.plan.getTolerance()));
         this.lstDataSets.removeAll();
         DefaultListModel<TopologyDataSet> modelDataSets = new DefaultListModel<>();
         for (TopologyDataSet dataSet : thePlan.getDataSets()) {
@@ -195,11 +190,12 @@ public class DefaultJTopologyPlanProperties
     }
 
     private void performAddRule() {
+        I18nManager i18n = ToolsLocator.getI18nManager();
         WindowManager_v2 winManager = (WindowManager_v2) ToolsSwingLocator.getWindowManager();
         CreateRuleDialog panel = new CreateRuleDialog(this.plan);
         Dialog dlg = winManager.createDialog(
                 panel,
-                "_Add_new_rule",
+                i18n.getTranslation("_Add_new_rule"),
                 null, 
                 WindowManager_v2.BUTTONS_OK_CANCEL
         );

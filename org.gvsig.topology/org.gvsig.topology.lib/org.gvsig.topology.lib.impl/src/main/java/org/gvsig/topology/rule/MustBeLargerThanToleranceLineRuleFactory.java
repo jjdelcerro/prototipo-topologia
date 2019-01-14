@@ -24,7 +24,7 @@
 package org.gvsig.topology.rule;
 
 import org.gvsig.fmap.geom.Geometry;
-import org.gvsig.topology.lib.api.AbstractTopologyRuleFactory;
+import org.gvsig.topology.lib.spi.AbstractTopologyRuleFactory;
 import org.gvsig.topology.lib.api.TopologyPlan;
 import org.gvsig.topology.lib.api.TopologyRule;
 
@@ -39,7 +39,6 @@ public class MustBeLargerThanToleranceLineRuleFactory extends AbstractTopologyRu
                 "MustBeLargerThanToleranceLine", 
                 "Must Be Larger Than Tolerance", 
                 "Requires that a feature does not collapse during a validate process. This rule is mandatory for a topology and applies to all line feature classes. In instances where this rule is violated, the original geometry is left unchanged", 
-                MustBeLargerThanToleranceLineRuleFactory.class.getResource("MustBeLargerThanToleranceLine.png"), 
                 Geometry.TYPES.CURVE, 
                 Geometry.TYPES.NULL
         );

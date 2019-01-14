@@ -34,6 +34,11 @@ import org.gvsig.topology.lib.api.TopologyServices;
  */
 public interface TopologySwingServices extends TopologyServices {
     
+    public interface WorkingAreaChangedListener {
+     
+        public void workingAreaChanged(Envelope workingArea);
+    }
+    
     public TreeModel getDataSetTreeModel();
     
     public void zoomTo(Envelope envelope);
@@ -41,5 +46,9 @@ public interface TopologySwingServices extends TopologyServices {
     public void centerTo(Point point);
     
     public Envelope getWorkingArea();
+    
+    public void addWorkingAreaChangedListener(WorkingAreaChangedListener listener);
+
+    public void removeWorkingAreaChangedListener(WorkingAreaChangedListener listener);
 
 }

@@ -21,16 +21,16 @@
  * For any additional information, do not hesitate to contact us
  * at info AT gvsig.com, or visit our website www.gvsig.com.
  */
-package org.gvsig.topology.lib.api;
+package org.gvsig.topology.lib.spi;
 
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import javax.imageio.ImageIO;
 import org.gvsig.fmap.geom.Geometry;
 import org.gvsig.fmap.geom.GeometryLocator;
 import org.gvsig.fmap.geom.GeometryManager;
+import org.gvsig.tools.util.ListBuilder;
+import org.gvsig.topology.lib.api.TopologyDataSet;
+import org.gvsig.topology.lib.api.TopologyRuleFactory;
+import org.json.JSONObject;
 
 /**
  *
@@ -38,9 +38,8 @@ import org.gvsig.fmap.geom.GeometryManager;
  */
 public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory {
     private final String id;
-    private final String name;
-    private final String description;
-    private final Image imageDescription;
+    private String name;
+    private String description;
     private final List<Integer> geometryTypeDataSet1;
     private final List<Integer> geometryTypeDataSet2;
 
@@ -48,7 +47,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             String id,
             String name,
             String description,
-            URL imageDescription,
             int geometryTypeDataSet1,
             int geometryTypeDataSet2
         ) {
@@ -56,7 +54,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
                 id, 
                 name, 
                 description, 
-                imageDescription, 
                 ListBuilder.create(geometryTypeDataSet1), 
                 ListBuilder.create(geometryTypeDataSet2)
         );
@@ -66,7 +63,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             String id,
             String name,
             String description,
-            URL imageDescription,
             List<Integer> geometryTypeDataSet1,
             int geometryTypeDataSet2
         ) {
@@ -74,7 +70,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
                 id, 
                 name, 
                 description, 
-                imageDescription, 
                 geometryTypeDataSet1, 
                 ListBuilder.create(geometryTypeDataSet2)
         );
@@ -84,7 +79,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             String id,
             String name,
             String description,
-            URL imageDescription,
             int geometryTypeDataSet1,
             List<Integer> geometryTypeDataSet2
         ) {
@@ -92,7 +86,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
                 id, 
                 name, 
                 description, 
-                imageDescription, 
                 ListBuilder.create(geometryTypeDataSet1), 
                 geometryTypeDataSet2
         );
@@ -102,7 +95,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             String id,
             String name,
             String description,
-            URL imageDescription,
             List<Integer> geometryTypeDataSet1,
             List<Integer> geometryTypeDataSet2
         ) {
@@ -111,25 +103,16 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
         this.description = description;
         this.geometryTypeDataSet1 = geometryTypeDataSet1;
         this.geometryTypeDataSet2 = geometryTypeDataSet2;
-        if( imageDescription == null ) {
-            this.imageDescription = null;
-        } else {
-            try {
-                this.imageDescription = ImageIO.read(imageDescription);
-            } catch (IOException ex) {
-                throw new IllegalArgumentException("Can't load image description.", ex);
-            }
-        } 
+        this.load_from_resource();
     }
 
     protected AbstractTopologyRuleFactory(
             String id,
             String name,
             String description,
-            URL imageDescription,
             int geometryTypeDataSet1
         ) {
-        this(id, name, description, imageDescription, geometryTypeDataSet1, Geometry.TYPES.NULL);
+        this(id, name, description, geometryTypeDataSet1, Geometry.TYPES.NULL);
     }
     
     @Override
@@ -150,11 +133,6 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
     @Override
     public String getDescription() {
         return this.description;
-    }
-
-    @Override
-    public Image getImageDescription() {
-        return this.imageDescription;
     }
 
     @Override
@@ -197,5 +175,18 @@ public abstract class AbstractTopologyRuleFactory implements TopologyRuleFactory
             }
         }        
         return false;
+    }
+   
+    private void load_from_resource() {
+        JSONObject json = RuleResourceLoaderUtils.getRule(this.id);
+        if( json == null ) {
+            return;
+        }
+        if( json.has("name") ) {
+            this.name = json.getString("name");
+        }
+        if( json.has("description") ) {
+            this.description = RuleResourceLoaderUtils.getDescription(this.id, json);
+        }
     }
 }

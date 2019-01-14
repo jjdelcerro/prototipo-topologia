@@ -1,0 +1,20 @@
+{
+    "id": "ContainsPoint",
+    "name": "Contains Point",
+    "description": [ 
+        "<img src=\"@@@.d/ContainsPoint.png\">\n",
+        "Requires that a polygon in the primary dataset contain at least one point from the secondary dataset.\n",
+        "Points must be within the polygon, not on the boundary.\n"
+    ],
+    "actions" : {
+        "CreateFeature": {
+            "name" : "Create feature",
+            "description": [ 
+                "The Create Feature fix creates a new point feature at the centroid",
+                "of the polygon feature that is causing the error.\n",
+                "The point feature that is created is guaranteed to be within the polygon feature."
+            ],
+        }
+    }
+}
+

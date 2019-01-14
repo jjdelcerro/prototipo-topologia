@@ -29,14 +29,13 @@ import org.gvsig.expressionevaluator.ExpressionEvaluatorLocator;
 import org.gvsig.expressionevaluator.ExpressionEvaluatorManager;
 import org.gvsig.fmap.dal.feature.EditableFeature;
 import org.gvsig.fmap.dal.feature.Feature;
-import org.gvsig.fmap.dal.feature.FeatureQuery;
 import org.gvsig.fmap.dal.feature.FeatureSet;
 import org.gvsig.fmap.dal.feature.FeatureStore;
 import org.gvsig.fmap.geom.Geometry;
 import org.gvsig.fmap.geom.primitive.Point;
 import org.gvsig.tools.dynobject.DynObject;
-import org.gvsig.topology.lib.api.AbstractTopologyRule;
-import org.gvsig.topology.lib.api.AbstractTopologyRuleAction;
+import org.gvsig.topology.lib.spi.AbstractTopologyRule;
+import org.gvsig.topology.lib.spi.AbstractTopologyRuleAction;
 import org.gvsig.topology.lib.api.ExecuteTopologyRuleActionException;
 import org.gvsig.topology.lib.api.TopologyDataSet;
 import org.gvsig.topology.lib.api.TopologyPlan;
@@ -52,21 +51,15 @@ import org.gvsig.topology.lib.api.TopologyRuleFactory;
 @SuppressWarnings("UseSpecificCatch")
 public class ContainsPointRule extends AbstractTopologyRule {
 
-    private String geomName;
-
     private class CreateFetureAction extends AbstractTopologyRuleAction {
 
         public CreateFetureAction() {
             super(
+                    "ContainsPoint",
                     "CreateFeature",
                     "Create Feature",
                     "The Create Feature fix creates a new point feature at the centroid of the polygon feature that is causing the error. The point feature that is created is guaranteed to be within the polygon feature."
             );
-        }
-
-        @Override
-        public DynObject createParameters() {
-            return null;
         }
 
         @Override
@@ -86,6 +79,7 @@ public class ContainsPointRule extends AbstractTopologyRule {
 
     }
 
+    private String geomName;
     private Expression expression = null;
     private ExpressionBuilder expressionBuilder = null;
     
